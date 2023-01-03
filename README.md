@@ -1,2 +1,2 @@
 # ImWrapper
-ImGui wrapper for common widgets to speed up development
+ImGui wrapper for rapid development
