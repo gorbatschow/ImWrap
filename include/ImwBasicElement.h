@@ -13,7 +13,7 @@ public:
   virtual void paint() {
     ImGui::PushID(this);
     if (_sameLine) {
-      ImGui::SameLine(0.0f, _sameLineSpacing);
+      ImGui::SameLine(_sameLineOffset, _sameLineSpacing);
     }
     if (!std::isnan(_width)) {
       ImGui::PushItemWidth(_width);
@@ -36,6 +36,9 @@ public:
   inline void setSameLine(bool sameLine) { _sameLine = sameLine; }
   inline bool sameLine() const { return _sameLine; }
 
+  inline void setSameLineOffset(float x) { _sameLineOffset = x; }
+  inline float sameLineOffet() const { return _sameLineOffset; }
+
   inline void setSameLineSpacing(float s) { _sameLineSpacing = s; }
   inline float sameLineSpacing() const { return _sameLineSpacing; }
 
@@ -45,6 +48,7 @@ protected:
   float _width{std::numeric_limits<float>::quiet_NaN()};
   std::string _label{"##"};
   bool _sameLine{};
+  float _sameLineOffset{};
   float _sameLineSpacing{-1.0f};
 };
 } // namespace Imw
