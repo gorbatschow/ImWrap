@@ -13,17 +13,21 @@ public:
   virtual ~ComboBox() override = default;
 
   void setValue(const T &value) override final {
-    _currIndex = 0;
-    for (int i = 0; i != _valueList.size(); ++i) {
-      if (_valueList.at(i).first == value) {
-        _currIndex = i;
-        break;
-      }
-    }
+    _currIndex = valueIndex(value);
   }
 
   const T &value() const override final {
+    assert(_currIndex >= 0);
     return _valueList.at(_currIndex).first;
+  }
+
+  int valueIndex(const T &value) const {
+    for (int i = 0; i != _valueList.size(); ++i) {
+      if (_valueList.at(i).first == value) {
+        return i;
+      }
+    }
+    return -1;
   }
 
   inline void
