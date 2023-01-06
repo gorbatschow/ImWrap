@@ -17,4 +17,10 @@ template <> inline void Slider<int>::paintElementImpl() {
   _changed = ImGui::SliderInt(_label.c_str(), &_value, _valueLimits.first,
                               _valueLimits.second);
 }
+
+template <> inline void Slider<float>::paintElementImpl() {
+  _changed = ImGui::SliderFloat(_label.c_str(), &_value, _valueLimits.first,
+                                _valueLimits.second);
+}
+
 } // namespace Imw
