@@ -42,7 +42,7 @@ public:
 
 protected:
   T _value{};
-  std::pair<T, T> _valueLimits{std::numeric_limits<T>::min(),
-                               std::numeric_limits<T>::max()};
+  std::pair<T, T> _valueLimits{std::numeric_limits<T>::min() / T(2),
+                               std::numeric_limits<T>::max() / T(2)};
 };
 } // namespace Imw
