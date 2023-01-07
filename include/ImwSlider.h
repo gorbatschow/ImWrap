@@ -4,7 +4,9 @@
 namespace Imw {
 template <class T> class Slider : public ValueElement<T> {
 public:
-  Slider(const std::string &label = {}) : ValueElement<T>(label) {}
+  Slider(const std::string &label = {}) : ValueElement<T>(label) {
+    ValueElement<T>::setValueLimits({T(0), T(9)});
+  }
 
   virtual ~Slider() override = default;
 
