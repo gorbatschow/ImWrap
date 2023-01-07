@@ -1,5 +1,6 @@
 #pragma once
 #include "ImwValueElement.h"
+#include <vector>
 
 namespace Imw {
 template <class T> class ComboBox : public IValueElement<T> {
