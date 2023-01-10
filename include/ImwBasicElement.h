@@ -42,6 +42,9 @@ public:
   inline void setSameLineSpacing(float s) { _sameLineSpacing = s; }
   inline float sameLineSpacing() const { return _sameLineSpacing; }
 
+  void setTextFormat(const std::string &format) { _textFormat = format; }
+  const std::string &textFormat() const { return _textFormat; }
+
 protected:
   virtual void paintElement() {}
 
@@ -50,5 +53,6 @@ protected:
   bool _sameLine{};
   float _sameLineOffset{};
   float _sameLineSpacing{-1.0f};
+  std::string _textFormat{};
 };
 } // namespace Imw
