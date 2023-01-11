@@ -4,10 +4,12 @@
 namespace Imw {
 template <class T> class SpinBox : public ValueElement<T> {
 public:
+  // Constructor
   SpinBox(const std::string &label = {}) : ValueElement<T>(label) {
     SpinBoxImpl();
   }
 
+  // Destructor
   virtual ~SpinBox() override = default;
 
   // Step
@@ -23,9 +25,15 @@ protected:
   void paintElementImpl() {}
   void SpinBoxImpl() {}
 
-  T _step{1};
-  T _stepFast{10};
+  T _step{};
+  T _stepFast{};
 };
+
+template <> inline void SpinBox<int>::SpinBoxImpl() {
+  setTextFormat("%d");
+  _step = 1;
+  _stepFast = 10;
+}
 
 template <> inline void SpinBox<int>::paintElementImpl() {
   int value{_value};
@@ -35,7 +43,11 @@ template <> inline void SpinBox<int>::paintElementImpl() {
   }
 }
 
-template <> inline void SpinBox<float>::SpinBoxImpl() { setTextFormat("%.2f"); }
+template <> inline void SpinBox<float>::SpinBoxImpl() {
+  setTextFormat("%.2f");
+  _step = 0.1f;
+  _stepFast = 1.0f;
+}
 
 template <> inline void SpinBox<float>::paintElementImpl() {
   float value{_value};

@@ -6,10 +6,13 @@
 namespace Imw {
 class BasicElement {
 public:
+  // Constructor
   BasicElement(const std::string &label = {}) : _label{label} {}
 
+  // Destructor
   virtual ~BasicElement() = default;
 
+  // Paint
   virtual void paint() {
     ImGui::PushID(this);
     if (_sameLine) {
@@ -25,6 +28,7 @@ public:
     ImGui::PopID();
   }
 
+  // Handle
   virtual bool handle() { return false; }
 
   inline void setWidth(float w) { _width = w; }

@@ -4,13 +4,16 @@
 namespace Imw {
 template <class T> class Slider : public ValueElement<T> {
 public:
+  // Constructor
   Slider(const std::string &label = {}) : ValueElement<T>(label) {
     ValueElement<T>::setValueLimits({T(0), T(9)});
   }
 
+  // Destructor
   virtual ~Slider() override = default;
 
 protected:
+  // Paint Element
   virtual void paintElement() override { paintElementImpl(); }
   void paintElementImpl() {}
 };

@@ -1,28 +1,44 @@
 #pragma once
-#include "ImwValueElement.h"
+#include "ImwIValueElement.h"
 #include <vector>
 
 namespace Imw {
 template <class T> class ComboBox : public IValueElement<T> {
 public:
+  // Constructor
   ComboBox(const std::string &label = {}) : IValueElement<T>(label) {}
 
+  // Constructor
   ComboBox(const std::string &label,
            const std::vector<std::pair<T, std::string>> &valueList)
       : IValueElement<T>(label), _valueList(valueList) {}
 
+  // Destructor
   virtual ~ComboBox() override = default;
 
-  void setValue(const T &value) override final {
+  // Set Value
+  virtual void setValue(const T &value, std::size_t) override {
     _currIndex = valueIndex(value);
   }
 
-  const T &value() const override final {
+  // Get Value
+  virtual const T &value(std::size_t) const override {
     assert(_currIndex >= 0);
     return _valueList.at(_currIndex).first;
   }
 
-  int valueIndex(const T &value) const {
+  // Set Value Limits
+  virtual void setValueLimits(const std::pair<T, T> &,
+                              std::size_t index = 0) override {}
+
+  // Get Value Limits
+  virtual const std::pair<T, T> &valueLimits(std::size_t) const override {
+    static const std::pair<T, T> limits{};
+    return limits;
+  }
+
+  // Get Value Index
+  inline int valueIndex(const T &value) const {
     for (int i = 0; i != _valueList.size(); ++i) {
       if (_valueList.at(i).first == value) {
         return i;
@@ -31,6 +47,7 @@ public:
     return -1;
   }
 
+  // Set Value List
   inline void
   setValueList(const std::vector<std::pair<T, std::string>> &valueList) {
     _valueList = valueList;
@@ -38,9 +55,11 @@ public:
     _currIndex = _valueList.empty() ? -1 : _currIndex;
   }
 
+  // Set Place Holder
   inline void setPlaceHolder(const std::string &text) { _placeholder = text; }
 
 protected:
+  // Paint Element
   virtual void paintElement() override {
     _currIndex = _valueList.empty() ? -1 : _currIndex;
     if (_currIndex < 0) {
