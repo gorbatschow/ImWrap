@@ -23,11 +23,9 @@ public:
 protected:
   // Paint Element
   virtual void paintElement() override {
-    if (std::isnan(_width)) {
-      _triggered = ImGui::Button(_label.c_str());
-    } else {
-      _triggered = ImGui::Button(_label.c_str(), {_width, _height});
-    }
+    const ImVec2 sz{std::isnan(_width) ? 0.f : _width,
+                    std::isnan(_height) ? 0.f : _height};
+    _triggered = ImGui::Button(_label.c_str(), sz);
   }
 
   bool _triggered{false};
