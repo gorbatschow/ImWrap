@@ -52,6 +52,11 @@ public:
   void setTextFormat(const std::string &format) { _textFormat = format; }
   const std::string &textFormat() const { return _textFormat; }
 
+  void setPlaceHolder(const std::string &placeHolder) {
+    _placeHolder = placeHolder;
+  }
+  const std::string &placeHodler() const { return _placeHolder; }
+
 protected:
   virtual void paintElement() {}
 
@@ -62,5 +67,6 @@ protected:
   float _sameLineOffset{};
   float _sameLineSpacing{-1.0f};
   std::string _textFormat{};
+  std::string _placeHolder{};
 };
 } // namespace Imw

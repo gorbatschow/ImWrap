@@ -4,8 +4,6 @@
 #include <array>
 
 namespace Imw {
-// ValueElement
-// -----------------------------------------------------------------------------
 template <class T> class ValueElement : public IValueElement<T> {
 public:
   // Constructor
@@ -18,7 +16,9 @@ public:
 
   // Set Value
   virtual void setValue(const T &value, std::size_t index = 0) override {
-    _value = std::clamp(value, _valueLimits.first, _valueLimits.second);
+    /*
+      _value = std::clamp(value, _valueLimits.first, _valueLimits.second);
+      */
   }
 
   // Get Value
@@ -39,8 +39,24 @@ public:
     return _valueLimits;
   }
 
+  // Set Value Count
+  virtual void setValueCount(std::size_t) override {}
+
   // Get Value Count
   virtual std::size_t valueCount() const override { return 1; }
+
+  // Set Current Index
+  virtual void setCurrentIndex(std::size_t) override {}
+
+  // Get Current Index
+  virtual std::size_t currentIndex() const override { return 0; };
+
+  // Set Current Value
+  virtual void setCurrentValue(const T &value) override { setValue(value, 0); };
+
+  // Get Current Value
+  virtual const T &currentValue() const override { value(0); }
+  inline const T &operator()() { return currentValue(); }
 
 protected:
   virtual void paintElement() override {}

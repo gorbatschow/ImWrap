@@ -4,12 +4,11 @@
 #include <array>
 
 namespace Imw {
-template <class T, std::size_t N>
-class MultiSpinBox : public MultiValueElement<T, N> {
+template <class T> class MultiSpinBox : public MultiValueElement<T> {
 public:
   // Constructot
-  MultiSpinBox(const std::string &label = {})
-      : MultiValueElement<T, N>(label) {}
+  MultiSpinBox(std::size_t count, const std::string &label = {})
+      : MultiValueElement<T>(count, label) {}
 
   // Destructor
   virtual ~MultiSpinBox() override = default;
@@ -19,15 +18,14 @@ protected:
   inline void paintElementImpl() {}
 };
 
-template <> inline void MultiSpinBox<>::paintElementImpl() {
+template <> inline void MultiSpinBox<int>::paintElementImpl() {
   int step{1};
   int step_fast{100};
   ImGuiInputTextFlags flags{0};
   ImGui::InputScalarN(_label.c_str(), ImGuiDataType_S32,
-                      (void *)MultiValueElement<int, N>::_value.data(),
-                      MultiValueElement<int, N>::_value.size(),
+                      (void *)MultiValueElement<int>::_valueList.data(),
+                      MultiValueElement<int>::_valueList.size(),
                       (void *)(step > 0 ? &step : NULL),
                       (void *)(step_fast > 0 ? &step_fast : NULL), NULL, flags);
 }
-
 } // namespace Imw

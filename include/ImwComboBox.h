@@ -1,94 +1,52 @@
 #pragma once
-#include "ImwIValueElement.h"
+#include "ImwMultiValueElement.h"
 #include <vector>
 
 namespace Imw {
-template <class T> class ComboBox : public IValueElement<T> {
+template <class T>
+class ComboBox : public MultiValueElement<std::pair<T, std::string>> {
+  using Parent = MultiValueElement<std::pair<T, std::string>>;
+
 public:
   // Constructor
-  ComboBox(const std::string &label = {}) : IValueElement<T>(label) {}
+  ComboBox(const std::string &label = {}) : Parent(0, label) {}
 
   // Constructor
   ComboBox(const std::string &label,
-           const std::vector<std::pair<T, std::string>> &valueList)
-      : IValueElement<T>(label), _valueList(valueList) {}
+           const std::vector<std::pair<T, std::string>> &values)
+      : Parent(values.size(), label), Parent::_valueList(values) {}
 
   // Destructor
   virtual ~ComboBox() override = default;
 
-  // Set Value
-  virtual void setValue(const T &value, std::size_t index = 0) override {
-    _currIndex = valueIndex(value);
-  }
-
-  // Get Value
-  virtual const T &value(std::size_t) const override {
-    assert(_currIndex >= 0);
-    return _valueList.at(_currIndex).first;
-  }
-
-  // Set Value Limits
-  virtual void setValueLimits(const std::pair<T, T> &,
-                              std::size_t index = 0) override {}
-
-  // Get Value Limits
-  virtual const std::pair<T, T> &valueLimits(std::size_t) const override {
-    static const std::pair<T, T> limits{};
-    return limits;
-  }
-
-  // Get Value Count
-  virtual std::size_t valueCount() const override { return _valueList.size(); }
-
-  // Get Value Index
-  inline int valueIndex(const T &value) const {
-    for (int i = 0; i != _valueList.size(); ++i) {
-      if (_valueList.at(i).first == value) {
-        return i;
-      }
-    }
-    return -1;
-  }
-
-  // Set Value List
-  inline void
-  setValueList(const std::vector<std::pair<T, std::string>> &valueList) {
-    _valueList = valueList;
-    _currIndex = std::clamp<T>(_currIndex, 0, _valueList.size() - 1);
-    _currIndex = _valueList.empty() ? -1 : _currIndex;
-  }
-
-  // Set Place Holder
-  inline void setPlaceHolder(const std::string &text) { _placeholder = text; }
+  inline const T &operator()() { return Parent::currentValue().first; }
 
 protected:
   // Paint Element
   virtual void paintElement() override {
-    _currIndex = _valueList.empty() ? -1 : _currIndex;
-    if (_currIndex < 0) {
+
+    Parent::_currIndex = Parent::_valueList.empty() ? -1 : Parent::_currIndex;
+    if (Parent::_currIndex < 0) {
       // Value list IS empty
-      if (ImGui::BeginCombo(IValueElement<T>::_label.c_str(),
-                            _placeholder.c_str())) {
+      if (ImGui::BeginCombo(Parent::_label.c_str(),
+                            Parent::_placeHolder.c_str())) {
         ImGui::EndCombo();
       }
     } else {
       // Value list is NOT empty
-      if (ImGui::BeginCombo(IValueElement<T>::_label.c_str(),
-                            _valueList.at(_currIndex).second.c_str())) {
-        for (size_t i = 0; i != _valueList.size(); ++i) {
-          if (ImGui::Selectable(_valueList[i].second.c_str(),
-                                i == _currIndex)) {
-            _currIndex = i;
-            IValueElement<T>::_changed = true;
+      if (ImGui::BeginCombo(
+              Parent::_label.c_str(),
+              Parent::_valueList.at(Parent::_currIndex).second.c_str())) {
+        for (size_t i = 0; i != Parent::_valueList.size(); ++i) {
+          if (ImGui::Selectable(Parent::_valueList[i].second.c_str(),
+                                i == Parent::_currIndex)) {
+            Parent::_currIndex = i;
+            Parent::_changed = true;
           }
         }
         ImGui::EndCombo();
       }
     }
   }
-
-  std::vector<std::pair<T, std::string>> _valueList;
-  int _currIndex{0};
-  std::string _placeholder{};
 };
 } // namespace Imw
