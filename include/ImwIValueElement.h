@@ -31,6 +31,9 @@ public:
   // Get Value Limits
   virtual const std::pair<T, T> &valueLimits(std::size_t index = 0) const = 0;
 
+  // Get Value Count
+  virtual std::size_t valueCount() const = 0;
+
 protected:
   // Paint Element
   virtual void paintElement() override {}

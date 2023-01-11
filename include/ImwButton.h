@@ -7,6 +7,7 @@ public:
   // Constructor
   Button(const std::string &label = {}) : BasicElement(label) {
     _width = 50.0f;
+    _height = 0.0f;
   }
 
   // Destructor
@@ -25,7 +26,7 @@ protected:
     if (std::isnan(_width)) {
       _triggered = ImGui::Button(_label.c_str());
     } else {
-      _triggered = ImGui::Button(_label.c_str(), {_width, 0.0f});
+      _triggered = ImGui::Button(_label.c_str(), {_width, _height});
     }
   }
 

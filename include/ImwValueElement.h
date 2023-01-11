@@ -17,25 +17,30 @@ public:
   virtual ~ValueElement() override = default;
 
   // Set Value
-  inline void setValue(const T &value, std::size_t index = 0) override {
+  virtual void setValue(const T &value, std::size_t index = 0) override {
     _value = std::clamp(value, _valueLimits.first, _valueLimits.second);
   }
 
   // Get Value
-  inline const T &value(std::size_t index = 0) const override { return _value; }
+  virtual const T &value(std::size_t index = 0) const override {
+    return _value;
+  }
 
   // Set Value Limits
-  inline void setValueLimits(const std::pair<T, T> &limits,
-                             std::size_t index = 0) override {
+  virtual void setValueLimits(const std::pair<T, T> &limits,
+                              std::size_t index = 0) override {
     _valueLimits = limits;
     setValue(_value);
   }
 
   // Get Value Limtis
-  inline const std::pair<T, T> &
+  virtual const std::pair<T, T> &
   valueLimits(std::size_t index = 0) const override {
     return _valueLimits;
   }
+
+  // Get Value Count
+  virtual std::size_t valueCount() const override { return 1; }
 
 protected:
   virtual void paintElement() override {}

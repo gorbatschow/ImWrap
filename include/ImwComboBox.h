@@ -17,7 +17,7 @@ public:
   virtual ~ComboBox() override = default;
 
   // Set Value
-  virtual void setValue(const T &value, std::size_t) override {
+  virtual void setValue(const T &value, std::size_t index = 0) override {
     _currIndex = valueIndex(value);
   }
 
@@ -36,6 +36,9 @@ public:
     static const std::pair<T, T> limits{};
     return limits;
   }
+
+  // Get Value Count
+  virtual std::size_t valueCount() const override { return _valueList.size(); }
 
   // Get Value Index
   inline int valueIndex(const T &value) const {

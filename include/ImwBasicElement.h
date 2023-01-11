@@ -34,6 +34,9 @@ public:
   inline void setWidth(float w) { _width = w; }
   inline float width() const { return _width; }
 
+  inline void setHeight(float h) { _height = h; }
+  inline float height() const { return _height; }
+
   inline void setLabel(const std::string &label) { _label = label; }
   inline const std::string &label() const { return _label; }
 
@@ -53,6 +56,7 @@ protected:
   virtual void paintElement() {}
 
   float _width{std::numeric_limits<float>::quiet_NaN()};
+  float _height{std::numeric_limits<float>::quiet_NaN()};
   std::string _label{"##"};
   bool _sameLine{};
   float _sameLineOffset{};
