@@ -2,7 +2,7 @@
 #include "ImwValueElement.h"
 
 namespace Imw {
-template <class T> class Slider : public ValueElement<T> {
+template <typename T> class Slider : public ValueElement<T> {
 public:
   // Constructor
   Slider(const std::string &label = {}) : ValueElement<T>(label) {

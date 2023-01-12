@@ -2,7 +2,7 @@
 #include "ImwValueElement.h"
 
 namespace Imw {
-template <class T> class SpinBox : public ValueElement<T> {
+template <typename T> class SpinBox : public ValueElement<T> {
 public:
   // Constructor
   SpinBox(const std::string &label = {}) : ValueElement<T>(label) {

@@ -4,7 +4,8 @@
 #include <vector>
 
 namespace Imw {
-template <class T> class MultiValueElement : public IValueElement<T> {
+template <typename T, bool Comparable = true>
+class MultiValueElement : public IValueElement<T> {
 public:
   // Constructor
   MultiValueElement(std::size_t count, const std::string &label = {})
@@ -20,10 +21,12 @@ public:
 
   // Set Value
   virtual void setValue(const T &value, std::size_t index) override {
-    /*
+    if constexpr (Comparable) {
       _valueList.at(index) = std::clamp(value, _valueLimits.at(index).first,
                                         _valueLimits.at(index).second);
-                                        */
+    } else {
+      _valueList.at(index) = value;
+    }
   }
 
   // Get Value
@@ -64,15 +67,13 @@ public:
 
   // Get Current Value
   virtual const T &currentValue() const override {
-    return _valueLimits.at(_currIndex).first;
+    return _valueList.at(_currIndex);
   }
 
   // Set Value List
   void setValueList(const std::vector<T> &valueList) {
     _valueList = valueList;
-    /*
-    _currIndex = std::clamp<T>(_currIndex, 0, _valueList.size() - 1);
-    */
+    _currIndex = std::clamp<std::size_t>(_currIndex, 0, _valueList.size() - 1);
     _currIndex = _valueList.empty() ? -1 : _currIndex;
   }
 
@@ -82,6 +83,6 @@ protected:
 
   std::vector<T> _valueList{};
   std::vector<std::pair<T, T>> _valueLimits{};
-  std::size_t _currIndex;
+  std::size_t _currIndex{};
 };
 } // namespace Imw

@@ -4,7 +4,7 @@
 #include <array>
 
 namespace Imw {
-template <class T> class MultiSpinBox : public MultiValueElement<T> {
+template <typename T> class MultiSpinBox : public MultiValueElement<T> {
 public:
   // Constructot
   MultiSpinBox(std::size_t count, const std::string &label = {})

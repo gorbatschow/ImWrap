@@ -4,7 +4,7 @@
 #include <array>
 
 namespace Imw {
-template <class T> class ValueElement : public IValueElement<T> {
+template <typename T> class ValueElement : public IValueElement<T> {
 public:
   // Constructor
   ValueElement(const std::string &label = {}) : IValueElement<T>(label) {
@@ -16,9 +16,7 @@ public:
 
   // Set Value
   virtual void setValue(const T &value, std::size_t index = 0) override {
-    /*
-      _value = std::clamp(value, _valueLimits.first, _valueLimits.second);
-      */
+    _value = std::clamp(value, _valueLimits.first, _valueLimits.second);
   }
 
   // Get Value
@@ -55,7 +53,7 @@ public:
   virtual void setCurrentValue(const T &value) override { setValue(value, 0); };
 
   // Get Current Value
-  virtual const T &currentValue() const override { value(0); }
+  virtual const T &currentValue() const override { return value(); }
   inline const T &operator()() { return currentValue(); }
 
 protected:
