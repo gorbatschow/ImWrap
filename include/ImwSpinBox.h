@@ -12,47 +12,57 @@ public:
   // Destructor
   virtual ~SpinBox() override = default;
 
-  // Step
-  inline void setStep(const T &value) { _step = value; }
-  inline const T &step() const { return _step; }
+  // Set Value Step
+  virtual void setValueStep(const T &step, std::size_t index = 0) override {
+    _valueStep = step;
+  }
 
-  // StepFast
-  inline void setStepFast(const T &value) { _stepFast = value; }
-  inline const T &stepFast() const { return _stepFast; }
+  // Set Value Fast Step
+  virtual void setValueFastStep(const T &fstep,
+                                std::size_t index = 0) override {
+    _valueFastStep = fstep;
+  }
 
 protected:
   virtual void paintElement() override { paintElementImpl(); }
   void paintElementImpl() {}
   void SpinBoxImpl() {}
 
-  T _step{};
-  T _stepFast{};
+  T _valueStep{};
+  T _valueFastStep{};
 };
 
+// SpinBox<int>
+// -----------------------------------------------------------------------------
+
 template <> inline void SpinBox<int>::SpinBoxImpl() {
-  setTextFormat("%d");
-  _step = 1;
-  _stepFast = 10;
+  _textFormat = "%d";
+  _valueStep = 1;
+  _valueFastStep = 10;
 }
 
 template <> inline void SpinBox<int>::paintElementImpl() {
   int value{_value};
-  _changed = ImGui::InputInt(_label.c_str(), &value, _step, _stepFast);
+  _changed =
+      ImGui::InputInt(_label.c_str(), &value, _valueStep, _valueFastStep);
   if (_changed) {
     setValue(value);
   }
 }
 
+// SpinBox<float>
+// -----------------------------------------------------------------------------
+
 template <> inline void SpinBox<float>::SpinBoxImpl() {
-  setTextFormat("%.2f");
-  _step = 0.1f;
-  _stepFast = 1.0f;
+  _textFormat = "%.2f";
+  _valueStep = 0.1f;
+  _valueFastStep = 1.0f;
 }
 
 template <> inline void SpinBox<float>::paintElementImpl() {
   float value{_value};
-  _changed = ImGui::InputFloat(_label.c_str(), &value, _step, _stepFast,
-                               _textFormat.c_str());
+  _changed = ImGui::InputFloat(_label.c_str(), &value, _valueStep,
+                               _valueFastStep, _textFormat.c_str());
   if (_changed) {
     setValue(value);
   }

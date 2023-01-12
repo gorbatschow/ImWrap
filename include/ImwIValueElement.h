@@ -50,6 +50,12 @@ public:
   virtual const T &currentValue() const = 0;
   inline const T &operator()() { return currentValue(); }
 
+  // Set Value Step
+  virtual void setValueStep(const T &step, std::size_t index) {}
+
+  // Set Value Fast Step
+  virtual void setValueFastStep(const T &fstep, std::size_t index) {}
+
 protected:
   // Paint Element
   virtual void paintElement() override {}

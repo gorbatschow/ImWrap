@@ -4,7 +4,8 @@
 #include <array>
 
 namespace Imw {
-template <typename T> class ValueElement : public IValueElement<T> {
+template <typename T, bool Comparable = true>
+class ValueElement : public IValueElement<T> {
 public:
   // Constructor
   ValueElement(const std::string &label = {}) : IValueElement<T>(label) {
@@ -16,7 +17,11 @@ public:
 
   // Set Value
   virtual void setValue(const T &value, std::size_t index = 0) override {
-    _value = std::clamp(value, _valueLimits.first, _valueLimits.second);
+    if constexpr (Comparable) {
+      _value = std::clamp(value, _valueLimits.first, _valueLimits.second);
+    } else {
+      _value = value;
+    }
   }
 
   // Get Value

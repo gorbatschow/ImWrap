@@ -12,8 +12,10 @@ public:
       : IValueElement<T>(label) {
     _valueList.resize(count);
     _valueList.shrink_to_fit();
-    _valueLimits.resize(count);
-    _valueLimits.shrink_to_fit();
+    if constexpr (Comparable) {
+      _valueLimits.resize(count);
+      _valueLimits.shrink_to_fit();
+    }
   }
 
   // Destructor
