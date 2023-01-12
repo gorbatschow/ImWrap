@@ -5,26 +5,35 @@
 
 namespace Imw {
 template <typename T> class MultiSpinBox : public MultiValueElement<T> {
+  using Base = MultiValueElement<T>;
+
 public:
   // Constructor
   MultiSpinBox(std::size_t count, const std::string &label = {})
-      : MultiValueElement<T>(count, label) {
+      : Base(count, label) {
     _valueStep.resize(count);
     _valueFastStep.resize(count);
+    _valueLimits.resize(count);
     MultiSpinBoxImpl();
   }
 
   // Destructor
   virtual ~MultiSpinBox() override = default;
 
+  // Set Value
+  virtual void setValue(const T &value, std::size_t index) override {
+    Base::setValue(std::clamp(value, _valueLimits.at(index).first,
+                              _valueLimits.at(index).second),
+                   index);
+  }
+
   // Set Value Step
-  virtual void setValueStep(const T &step, std::size_t index = 0) override {
+  virtual void setValueStep(const T &step, std::size_t index) override {
     _valueStep.at(index) = step;
   }
 
   // Set Value Fast Step
-  virtual void setValueFastStep(const T &fstep,
-                                std::size_t index = 0) override {
+  virtual void setValueFastStep(const T &fstep, std::size_t index) override {
     _valueFastStep.at(index) = fstep;
   }
 
@@ -35,6 +44,7 @@ protected:
 
   std::vector<T> _valueStep{};
   std::vector<T> _valueFastStep{};
+  std::vector<std::pair<T, T>> _valueLimits{};
 };
 
 // MultiSpinBox<int>
@@ -49,8 +59,7 @@ template <> inline void MultiSpinBox<int>::MultiSpinBoxImpl() {
 template <> inline void MultiSpinBox<int>::paintElementImpl() {
   ImGuiInputTextFlags flags{0};
   ImGui::InputScalarN(_label.c_str(), ImGuiDataType_S32,
-                      MultiValueElement<int>::_valueList.data(),
-                      MultiValueElement<int>::_valueList.size(),
+                      Base::_valueList.data(), Base::_valueList.size(),
                       _valueStep.data(), _valueFastStep.data(),
                       _textFormat.c_str(), flags);
 }
@@ -67,8 +76,7 @@ template <> inline void MultiSpinBox<float>::MultiSpinBoxImpl() {
 template <> inline void MultiSpinBox<float>::paintElementImpl() {
   ImGuiInputTextFlags flags{0};
   ImGui::InputScalarN(_label.c_str(), ImGuiDataType_Float,
-                      MultiValueElement<float>::_valueList.data(),
-                      MultiValueElement<float>::_valueList.size(),
+                      Base::_valueList.data(), Base::_valueList.size(),
                       _valueStep.data(), _valueFastStep.data(),
                       _textFormat.c_str(), flags);
 }

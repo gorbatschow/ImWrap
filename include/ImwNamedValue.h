@@ -7,6 +7,8 @@ template <typename T> class NamedValue {
 public:
   NamedValue() = default;
 
+  NamedValue(const std::string &name) : _name{name} {}
+
   NamedValue(const T &value, const std::string &name)
       : _value{value}, _name{name} {}
 
@@ -32,6 +34,10 @@ public:
   // Compare
   inline bool operator<(const NamedValue &value) const {
     return _value < value._value;
+  }
+
+  inline bool operator==(const NamedValue &value) const {
+    return _value == value._value;
   }
 
 private:

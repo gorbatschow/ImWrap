@@ -24,16 +24,6 @@ public:
   virtual const T &value(std::size_t index) const = 0;
   inline const T &operator()(std::size_t index) { return value(index); }
 
-  // Set Value Limits
-  virtual void setValueLimits(const std::pair<T, T> &limits,
-                              std::size_t index) = 0;
-
-  // Get Value Limits
-  virtual const std::pair<T, T> &valueLimits(std::size_t index = 0) const = 0;
-
-  // Set Value Count
-  virtual void setValueCount(std::size_t count) = 0;
-
   // Get Value Count
   virtual std::size_t valueCount() const = 0;
 
@@ -49,6 +39,10 @@ public:
   // Get Current Value
   virtual const T &currentValue() const = 0;
   inline const T &operator()() { return currentValue(); }
+
+  // Set Value Limits
+  virtual void setValueLimits(const std::pair<T, T> &limits,
+                              std::size_t index){};
 
   // Set Value Step
   virtual void setValueStep(const T &step, std::size_t index) {}

@@ -4,9 +4,8 @@
 #include <vector>
 
 namespace Imw {
-template <typename T>
-class ComboBox : public MultiValueElement<NamedValue<T>, false> {
-  using Base = MultiValueElement<NamedValue<T>, false>;
+template <typename T> class ComboBox : public MultiValueElement<NamedValue<T>> {
+  using Base = MultiValueElement<NamedValue<T>>;
 
 public:
   // Constructor
