@@ -6,6 +6,7 @@
 #include <include/ImwComboBox.h>
 #include <include/ImwIValueElement.h>
 #include <include/ImwLabel.h>
+#include <include/ImwMultiRadioButton.h>
 #include <include/ImwMultiSpinBox.h>
 #include <include/ImwMultiValueElement.h>
 #include <include/ImwNamedValue.h>

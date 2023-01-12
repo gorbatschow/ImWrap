@@ -13,27 +13,25 @@ public:
   virtual ~SpinBox() override = default;
 
   // Set Value
-  virtual void setValue(const T &value, std::size_t index = 0) override {
+  virtual void setValue(const T &value, int index = 0) override {
     Base::setValue(std::clamp(value, _valueLimits.first, _valueLimits.second));
   }
 
   // Set Value Step
-  virtual void setValueStep(const T &step, std::size_t index = 0) override {
+  virtual void setValueStep(const T &step, int index = 0) override {
     _valueStep = step;
   }
 
   // Set Value Fast Step
-  virtual void setValueFastStep(const T &fstep,
-                                std::size_t index = 0) override {
+  virtual void setValueFastStep(const T &fstep, int index = 0) override {
     _valueFastStep = fstep;
   }
 
   // Set Value Limits
   virtual void setValueLimits(const std::pair<T, T> &limits,
-                              std::size_t index = 0) override {
+                              int index = 0) override {
     _valueLimits = limits;
-    Base::setValue(std::clamp(Base::currentValue(), _valueLimits.first,
-                              _valueLimits.second));
+    setValue(Base::currentValue());
   }
 
 protected:
@@ -44,8 +42,8 @@ protected:
 
   T _valueStep{};
   T _valueFastStep{};
-  std::pair<T, T> _valueLimits{std::numeric_limits<float>::min() / T(2),
-                               std::numeric_limits<float>::max() / T(2)};
+  std::pair<T, T> _valueLimits{std::numeric_limits<T>::min() / T(2),
+                               std::numeric_limits<T>::max() / T(2)};
 };
 
 // SpinBox<int>
@@ -72,7 +70,7 @@ template <> inline void SpinBox<int>::paintElementImpl() {
 template <> inline void SpinBox<float>::SpinBoxImpl() {
   _textFormat = "%.2f";
   _valueStep = 0.1f;
-  _valueFastStep = 1.0f;
+  _valueFastStep = 10.0f;
 }
 
 template <> inline void SpinBox<float>::paintElementImpl() {

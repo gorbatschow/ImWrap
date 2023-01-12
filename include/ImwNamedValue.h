@@ -18,11 +18,12 @@ public:
   ~NamedValue() = default;
 
   // Set Value
-  inline void setValue(const T &value) {}
+  inline void setValue(const T &value) { _value = value; }
 
   // Get Value
   inline const T &value() const { return _value; }
   const T &operator()() const { return _value; }
+  T *valuePtr() { return &_value; }
 
   // Set Name
   inline void setName(const std::string &name) { _name = name; }

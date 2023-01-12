@@ -13,13 +13,13 @@ public:
   virtual ~Slider() override = default;
 
   // Set Value
-  virtual void setValue(const T &value, std::size_t index = 0) override {
+  virtual void setValue(const T &value, int index = 0) override {
     Base::setValue(std::clamp(value, _valueLimits.first, _valueLimits.second));
   }
 
   // Set Value Limits
   virtual void setValueLimits(const std::pair<T, T> &limits,
-                              std::size_t index = 0) override {
+                              int index = 0) override {
     _valueLimits = limits;
     Base::setValue(std::clamp(Base::currentValue(), _valueLimits.first,
                               _valueLimits.second));

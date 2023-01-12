@@ -15,23 +15,21 @@ public:
   virtual ~ValueElement() override = default;
 
   // Set Value
-  virtual void setValue(const T &value, std::size_t index = 0) override {
+  virtual void setValue(const T &value, int index = 0) override {
     _value = value;
   }
 
   // Get Value
-  virtual const T &value(std::size_t index = 0) const override {
-    return _value;
-  }
+  virtual const T &value(int index = 0) const override { return _value; }
 
   // Get Value Count
-  virtual std::size_t valueCount() const override { return 1; }
+  virtual int valueCount() const override { return 1; }
 
   // Set Current Index
-  virtual void setCurrentIndex(std::size_t) override {}
+  virtual void setCurrentIndex(int index) override {}
 
   // Get Current Index
-  virtual std::size_t currentIndex() const override { return 0; };
+  virtual int currentIndex() const override { return 0; };
 
   // Set Current Value
   virtual void setCurrentValue(const T &value) override { setValue(value, 0); };
