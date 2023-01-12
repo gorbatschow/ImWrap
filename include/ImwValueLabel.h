@@ -2,7 +2,7 @@
 #include "ImwValueElement.h"
 
 namespace Imw {
-template <class T> class ValueLabel : public ValueElement<T> {
+template <typename T> class ValueLabel : public ValueElement<T> {
 public:
   // Constructor
   ValueLabel(const std::string &label = {}) : ValueElement<T>(label) {}

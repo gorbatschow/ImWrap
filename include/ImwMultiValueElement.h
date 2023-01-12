@@ -1,46 +1,60 @@
 #pragma once
 #include "ImwIValueElement.h"
 #include <algorithm>
-#include <array>
+#include <vector>
 
 namespace Imw {
-template <class T, std::size_t N>
-class MultiValueElement : public IValueElement<T> {
+template <typename T> class MultiValueElement : public IValueElement<T> {
 public:
   // Constructor
-  MultiValueElement(const std::string &label = {}) : IValueElement<T>(label) {}
+  MultiValueElement(int count, const std::string &label = {})
+      : IValueElement<T>(label) {
+    _valueList.resize(count);
+    _valueList.shrink_to_fit();
+  }
 
   // Destructor
   virtual ~MultiValueElement() override = default;
 
   // Set Value
-  virtual void setValue(const T &value, std::size_t index) override {
-    _value.at(index) = std::clamp(value, _valueLimits.at(index).first,
-                                  _valueLimits.at(index).second);
+  virtual void setValue(const T &value, int index) override {
+    _valueList.at(index) = value;
   }
 
   // Get Value
-  virtual const T &value(std::size_t index) const override {
-    return _value.at(index);
+  virtual const T &value(int index) const override {
+    return _valueList.at(index);
   }
 
-  // Set Value Limits
-  virtual void setValueLimits(const std::pair<T, T> &limits,
-                              std::size_t index) override {
-    _valueLimits.at(index) = limits;
-    setValue(_value.at(index), index);
+  // Get Value Count
+  virtual int valueCount() const override { return _valueList.size(); }
+
+  // Set Current Index
+  virtual void setCurrentIndex(int index) override { _currIndex = index; };
+
+  // Get Current Index
+  virtual int currentIndex() const override { return _currIndex; }
+
+  // Set Current Value
+  virtual void setCurrentValue(const T &value) override {}
+
+  // Get Current Value
+  virtual const T &currentValue() const override {
+    return _valueList.at(_currIndex);
   }
 
-  // Get Value Limits
-  virtual const std::pair<T, T> &valueLimits(std::size_t index) const override {
-    return _valueLimits.at(index);
+  // Set Value List
+  virtual void setValueList(const std::vector<T> &valueList) override {
+    _valueList = valueList;
+    _currIndex = std::clamp<int>(_currIndex, 0, _valueList.size() - 1);
+    _currIndex = _valueList.empty() ? -1 : _currIndex;
   }
 
 protected:
   // Paint Element
   virtual void paintElement() override {}
 
-  std::array<T, N> _value{};
-  std::array<std::pair<T, T>, N> _valueLimits{};
+  std::vector<T> _valueList{};
+  int _currIndex{};
 };
 } // namespace Imw
