@@ -38,9 +38,18 @@ public:
 
 protected:
   virtual void paintElement() override {
+    if (!_label.empty()) {
+      ImGui::AlignTextToFramePadding();
+      ImGui::TextUnformatted(_label.c_str());
+      ImGui::SameLine(_sameLineOffset, _sameLineSpacing);
+    }
+
     for (auto &value : _valueList) {
       if (ImGui::RadioButton(value.namePtr(), &_currIndex, value())) {
         _changed = true;
+      }
+      if (!_isVertical && value != _valueList.back()) {
+        ImGui::SameLine(_sameLineOffset, _sameLineSpacing);
       }
     }
   }
