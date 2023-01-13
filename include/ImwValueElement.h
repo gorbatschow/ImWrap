@@ -36,7 +36,6 @@ public:
 
   // Get Current Value
   virtual const T &currentValue() const override { return value(); }
-  inline const T &operator()() { return currentValue(); }
 
 protected:
   virtual void paintElement() override {}
