@@ -1,19 +1,20 @@
 #pragma once
+#include "ImwIElement.h"
 #include <cmath>
 #include <imgui.h>
 #include <string>
 
 namespace Imw {
-class BasicElement {
+class BasicElement : public IElement {
 public:
   // Constructor
   BasicElement(const std::string &label = {}) : _label{label} {}
 
   // Destructor
-  virtual ~BasicElement() = default;
+  virtual ~BasicElement() override = default;
 
   // Paint
-  virtual void paint() {
+  virtual void paint() override {
     ImGui::PushID(this);
     if (_sameLine) {
       ImGui::SameLine(_sameLineOffset, _sameLineSpacing);
@@ -29,13 +30,16 @@ public:
   }
 
   // Handle
-  virtual bool handle() { return false; }
+  virtual bool handle() override { return false; }
 
   inline void setWidth(float w) { _width = w; }
   inline float width() const { return _width; }
 
   inline void setHeight(float h) { _height = h; }
   inline float height() const { return _height; }
+
+  inline void setVerical(bool isVertical) {}
+  inline bool isVertical() { return _isVertical; }
 
   inline void setLabel(const std::string &label) { _label = label; }
   inline const std::string &label() const { return _label; }
@@ -62,6 +66,7 @@ protected:
 
   float _width{std::numeric_limits<float>::quiet_NaN()};
   float _height{std::numeric_limits<float>::quiet_NaN()};
+  bool _isVertical{false};
   std::string _label{"##"};
   bool _sameLine{};
   float _sameLineOffset{};

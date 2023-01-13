@@ -9,7 +9,8 @@ template <typename T> class MultiSpinBox : public MultiValueElement<T> {
 
 public:
   // Constructor
-  MultiSpinBox(int count, const std::string &label = {}) : Base(count, label) {
+  MultiSpinBox(int count, const std::string &label = {}) : Base(label) {
+    Base::_valueList.resize(count);
     _valueStep.resize(count);
     _valueFastStep.resize(count);
     _valueLimits.resize(count);

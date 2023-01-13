@@ -9,7 +9,7 @@ template <typename T> class ComboBox : public MultiValueElement<NamedValue<T>> {
 
 public:
   // Constructor
-  ComboBox(const std::string &label = {}) : Base(0, label) {}
+  ComboBox(const std::string &label = {}) : Base(label) {}
 
   // Constructor
   ComboBox(const std::string &label,

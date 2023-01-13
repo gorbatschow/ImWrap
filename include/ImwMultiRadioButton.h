@@ -8,12 +8,15 @@ class MultiRadioButton : public MultiValueElement<NamedValue<int>> {
 
 public:
   // Constructor
-  MultiRadioButton(std::size_t count, const std::string &label = {})
-      : Base(count, label) {
+  MultiRadioButton(const std::string &label = {}) : Base(label) {}
+
+  // Constructor
+  MultiRadioButton(const std::vector<std::string> &radioLabels,
+                   const std::string &label = {})
+      : Base(label) {
     int index = 0;
-    for (auto &value : _valueList) {
-      value.setName("Combo_" + std::to_string(index));
-      value.setValue(index++);
+    for (const auto &label : radioLabels) {
+      _valueList.push_back({index++, label});
     }
   }
 
@@ -35,9 +38,18 @@ public:
 
 protected:
   virtual void paintElement() override {
+    if (!_label.empty()) {
+      ImGui::AlignTextToFramePadding();
+      ImGui::TextUnformatted(_label.c_str());
+      ImGui::SameLine(_sameLineOffset, _sameLineSpacing);
+    }
+
     for (auto &value : _valueList) {
       if (ImGui::RadioButton(value.namePtr(), &_currIndex, value())) {
         _changed = true;
+      }
+      if (!_isVertical && value != _valueList.back()) {
+        ImGui::SameLine(_sameLineOffset, _sameLineSpacing);
       }
     }
   }

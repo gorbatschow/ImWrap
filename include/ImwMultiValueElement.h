@@ -7,11 +7,7 @@ namespace Imw {
 template <typename T> class MultiValueElement : public IValueElement<T> {
 public:
   // Constructor
-  MultiValueElement(int count, const std::string &label = {})
-      : IValueElement<T>(label) {
-    _valueList.resize(count);
-    _valueList.shrink_to_fit();
-  }
+  MultiValueElement(const std::string &label = {}) : IValueElement<T>(label) {}
 
   // Destructor
   virtual ~MultiValueElement() override = default;
