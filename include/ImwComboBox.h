@@ -20,7 +20,7 @@ public:
   virtual ~ComboBox() override{};
 
   // Get Value
-  inline const T &operator()() { return Base::currentValue().value(); }
+  inline const T &operator()() { return Base::currentValue(); }
 
 protected:
   // Paint Element

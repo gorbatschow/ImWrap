@@ -33,9 +33,6 @@ public:
     }
   }
 
-  // Get Value
-  inline const int &operator()() { return Base::currentValue().value(); }
-
 protected:
   virtual void paintElement() override {
     if (!_label.empty()) {

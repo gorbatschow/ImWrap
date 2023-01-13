@@ -41,6 +41,9 @@ public:
     return _value == value._value;
   }
 
+  // Convert
+  operator const T &() const { return _value; }
+
 private:
   T _value{};
   std::string _name;
