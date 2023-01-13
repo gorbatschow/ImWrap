@@ -4,6 +4,9 @@
 namespace Imw {
 template <typename T> class SpinBox : public ValueElement<T> {
   using Base = ValueElement<T>;
+  static constexpr std::pair<int, int> DefaultLimits{
+      std::numeric_limits<int>::min() / T{2},
+      std::numeric_limits<int>::max() / T{2}};
 
 public:
   // Constructor
@@ -42,8 +45,7 @@ protected:
 
   T _valueStep{};
   T _valueFastStep{};
-  std::pair<T, T> _valueLimits{std::numeric_limits<T>::min() / T(2),
-                               std::numeric_limits<T>::max() / T(2)};
+  std::pair<T, T> _valueLimits{DefaultLimits};
 };
 
 // SpinBox<int>

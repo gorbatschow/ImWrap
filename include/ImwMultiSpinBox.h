@@ -6,6 +6,9 @@
 namespace Imw {
 template <typename T> class MultiSpinBox : public MultiValueElement<T> {
   using Base = MultiValueElement<T>;
+  static constexpr std::pair<int, int> DefaultLimits{
+      std::numeric_limits<int>::min() / T{2},
+      std::numeric_limits<int>::max() / T{2}};
 
 public:
   // Constructor
@@ -44,6 +47,12 @@ public:
     setValue(Base::currentValue(), index);
   }
 
+  // Set Value List
+  virtual void setValueList(const std::vector<T> &valueList) override {
+    Base::setValueList(valueList);
+    _valueLimits.resize(valueList.size(), DefaultLimits);
+  }
+
 protected:
   virtual void paintElement() override { paintElementImpl(); }
   inline void paintElementImpl() {}
@@ -61,8 +70,7 @@ template <> inline void MultiSpinBox<int>::MultiSpinBoxImpl() {
   _textFormat = "%d";
   std::fill(_valueStep.begin(), _valueStep.end(), 1);
   std::fill(_valueFastStep.begin(), _valueFastStep.end(), 10);
-  std::fill(_valueLimits.begin(), _valueLimits.end(),
-            std::pair<int, int>{0, 10});
+  std::fill(_valueLimits.begin(), _valueLimits.end(), DefaultLimits);
 }
 
 template <> inline void MultiSpinBox<int>::paintElementImpl() {
@@ -85,8 +93,7 @@ template <> inline void MultiSpinBox<float>::MultiSpinBoxImpl() {
   _textFormat = "%.2f";
   std::fill(_valueStep.begin(), _valueStep.end(), 0.1f);
   std::fill(_valueFastStep.begin(), _valueFastStep.end(), 1.0f);
-  std::fill(_valueLimits.begin(), _valueLimits.end(),
-            std::pair<float, float>{0.0, 1.0});
+  std::fill(_valueLimits.begin(), _valueLimits.end(), DefaultLimits);
 }
 
 template <> inline void MultiSpinBox<float>::paintElementImpl() {
