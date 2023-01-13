@@ -44,7 +44,7 @@ public:
   virtual void setValueLimits(const std::pair<T, T> &limits,
                               int index) override {
     _valueLimits.at(index) = limits;
-    setValue(Base::currentValue(), index);
+    setValue(Base::value(index), index);
   }
 
   // Set Value List
