@@ -32,6 +32,9 @@ public:
   // Handle
   virtual bool handle() override { return false; }
 
+  // Trigger
+  virtual void trigger() override {}
+
   inline void setWidth(float w) { _width = w; }
   inline float width() const { return _width; }
 

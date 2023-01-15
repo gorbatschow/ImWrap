@@ -18,6 +18,9 @@ public:
     return changed;
   }
 
+  // Trigger
+  virtual void trigger() const { _changed = true; }
+
   // Set Value
   virtual void setValue(const T &value, int index) = 0;
 
