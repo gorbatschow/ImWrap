@@ -1,16 +1,31 @@
 #pragma once
 #include "ImwIValueElement.h"
 #include <algorithm>
+#include <iostream>
 #include <vector>
 
 namespace Imw {
 template <typename T> class MultiValueElement : public IValueElement<T> {
+  using Base = IValueElement<T>;
+
 public:
   // Constructor
-  MultiValueElement(const std::string &label = {}) : IValueElement<T>(label) {}
+  MultiValueElement(const std::string &label = {}) : IValueElement<T>(label) {
+    MultiValueElementImpl();
+  }
 
   // Destructor
   virtual ~MultiValueElement() override = default;
+
+  // Load State
+  virtual void loadState(const mINI::INIStructure &ini) override {
+    loadStateImpl(ini);
+  }
+
+  // Save State
+  virtual void saveState(mINI::INIStructure &ini) override {
+    saveStateImpl(ini);
+  }
 
   // Set Value
   virtual void setValue(const T &value, int index) override {
@@ -49,8 +64,78 @@ public:
 protected:
   // Paint Element
   virtual void paintElement() override {}
+  inline void MultiValueElementImpl() {}
+  inline void loadStateImpl(const mINI::INIStructure &ini) {}
+  inline void saveStateImpl(mINI::INIStructure &ini) {}
+
+  // Default load from INI file
+  void loadStateDefault(const mINI::INIStructure &ini,
+                        std::function<T(std::string)> transform) {
+    int index{};
+    for (const auto &item : ini.get(Base::elementIdStr())) {
+      try {
+        _valueList.at(index) = transform(item.second);
+      } catch (const std::invalid_argument &e) {
+        std::cout << "Imw::MultiValueElement<> Can't load from INI"
+                  << "std::invalid_argument" << e.what() << std::endl;
+      } catch (const std::out_of_range &e) {
+      }
+      index++;
+    }
+  }
+
+  // Default save to INI file
+  void saveStateDefault(mINI::INIStructure &ini) {
+    int index{};
+    for (const auto &item : _valueList) {
+      const std::string key{"value_" + std::to_string(index)};
+      ini[Base::elementIdStr()][key] = std::to_string(item);
+      index++;
+    }
+  }
 
   std::vector<T> _valueList{};
   int _currIndex{};
 };
+
+// ValueElement<bool>
+// -----------------------------------------------------------------------------
+template <>
+inline void
+MultiValueElement<bool>::loadStateImpl(const mINI::INIStructure &ini) {
+  loadStateDefault(ini,
+                   [](const std::string &str) { return bool(std::stoi(str)); });
+}
+
+template <>
+inline void MultiValueElement<bool>::saveStateImpl(mINI::INIStructure &ini) {
+  saveStateDefault(ini);
+}
+
+// ValueElement<int>
+// -----------------------------------------------------------------------------
+template <>
+inline void
+MultiValueElement<int>::loadStateImpl(const mINI::INIStructure &ini) {
+  loadStateDefault(ini, [](const std::string &str) { return std::stoi(str); });
+}
+
+template <>
+inline void MultiValueElement<int>::saveStateImpl(mINI::INIStructure &ini) {
+  saveStateDefault(ini);
+}
+
+// ValueElement<float>
+// -----------------------------------------------------------------------------
+template <>
+inline void
+MultiValueElement<float>::loadStateImpl(const mINI::INIStructure &ini) {
+  loadStateDefault(ini, [](const std::string &str) { return std::stof(str); });
+}
+
+template <>
+inline void MultiValueElement<float>::saveStateImpl(mINI::INIStructure &ini) {
+  saveStateDefault(ini);
+}
+
 } // namespace Imw
