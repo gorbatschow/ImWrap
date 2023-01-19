@@ -33,7 +33,7 @@ public:
   }
 
   // Load Element State
-  inline void loadElementState(const std::string &file) {
+  inline void loadElementState(const std::string &file = "imwrap.ini") {
     mINI::INIFile iniFile(file);
     mINI::INIStructure ini;
     iniFile.read(ini);
@@ -43,7 +43,7 @@ public:
   }
 
   // Save Element State
-  inline void saveElementState(const std::string &file) {
+  inline void saveElementState(const std::string &file = "imwrap.ini") {
     mINI::INIFile iniFile(file);
     mINI::INIStructure ini;
     for (auto &element : _elements) {
