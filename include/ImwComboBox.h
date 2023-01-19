@@ -40,7 +40,7 @@ protected:
           if (ImGui::Selectable(Base::_valueList.at(i).namePtr(),
                                 i == Base::_currIndex)) {
             Base::_currIndex = i;
-            Base::_changed = true;
+            Base::trigger();
           }
         }
         ImGui::EndCombo();

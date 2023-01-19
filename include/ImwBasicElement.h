@@ -43,10 +43,14 @@ public:
   }
 
   // Handle
-  virtual bool handle() override { return false; }
+  virtual bool handle() const override {
+    const auto triggered{_triggered};
+    _triggered = false;
+    return triggered;
+  }
 
   // Trigger
-  virtual void trigger() override {}
+  virtual void trigger() const override { _triggered = true; }
 
   inline void setWidth(float w) { _width = w; }
   inline float width() const { return _width; }
@@ -90,5 +94,7 @@ protected:
   std::string _textFormat{};
   std::string _placeHolder{};
   int _elementId{};
+
+  mutable bool _triggered{false};
 };
 } // namespace Imw

@@ -43,7 +43,7 @@ protected:
 
     for (auto &value : _valueList) {
       if (ImGui::RadioButton(value.namePtr(), &_currIndex, value())) {
-        _changed = true;
+        trigger();
       }
       if (!_isVertical && value != _valueList.back()) {
         ImGui::SameLine(_sameLineOffset, _sameLineSpacing);

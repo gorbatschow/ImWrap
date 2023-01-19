@@ -40,8 +40,12 @@ template <> inline void Slider<int>::SliderImpl() {}
 
 template <> inline void Slider<int>::paintElementImpl() {
   const char *format{_textFormat.empty() ? nullptr : _textFormat.c_str()};
-  _changed = ImGui::SliderInt(_label.c_str(), &_value, _valueLimits.first,
-                              _valueLimits.second, format);
+  const auto changed{ImGui::SliderInt(_label.c_str(), &_value,
+                                      _valueLimits.first, _valueLimits.second,
+                                      format)};
+  if (changed) {
+    trigger();
+  }
 }
 
 // Slider<float>
@@ -50,8 +54,12 @@ template <> inline void Slider<float>::SliderImpl() {}
 
 template <> inline void Slider<float>::paintElementImpl() {
   const char *format{_textFormat.empty() ? nullptr : _textFormat.c_str()};
-  _changed = ImGui::SliderFloat(_label.c_str(), &_value, _valueLimits.first,
-                                _valueLimits.second, format);
+  const auto changed{ImGui::SliderFloat(_label.c_str(), &_value,
+                                        _valueLimits.first, _valueLimits.second,
+                                        format)};
+  if (changed) {
+    trigger();
+  }
 }
 
 } // namespace Imw

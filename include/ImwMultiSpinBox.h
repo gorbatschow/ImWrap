@@ -75,14 +75,15 @@ template <> inline void MultiSpinBox<int>::MultiSpinBoxImpl() {
 
 template <> inline void MultiSpinBox<int>::paintElementImpl() {
   ImGuiInputTextFlags flags{0};
-  _changed = ImGui::InputScalarN(
+  const auto changed{ImGui::InputScalarN(
       _label.c_str(), ImGuiDataType_S32, Base::_valueList.data(),
       Base::_valueList.size(), _valueStep.data(), _valueFastStep.data(),
-      _textFormat.c_str(), flags);
-  if (_changed) {
+      _textFormat.c_str(), flags)};
+  if (changed) {
     for (std::size_t i = 0; i != _valueList.size(); ++i) {
       setValue(_valueList.at(i), i);
     }
+    trigger();
   }
 }
 
@@ -98,13 +99,14 @@ template <> inline void MultiSpinBox<float>::MultiSpinBoxImpl() {
 
 template <> inline void MultiSpinBox<float>::paintElementImpl() {
   ImGuiInputTextFlags flags{0};
-  _changed = ImGui::InputScalarN(
+  const auto changed{ImGui::InputScalarN(
       _label.c_str(), ImGuiDataType_Float, Base::_valueList.data(),
       Base::_valueList.size(), _valueStep.data(), _valueFastStep.data(),
-      _textFormat.c_str(), flags);
-  if (_changed) {
+      _textFormat.c_str(), flags)};
+  if (changed) {
     for (std::size_t i = 0; i != _valueList.size(); ++i) {
       setValue(_valueList.at(i), i);
+      trigger();
     }
   }
 }

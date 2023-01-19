@@ -13,10 +13,11 @@ public:
 protected:
   // Paint Element
   virtual void paintElement() override {
-    bool value{_value};
-    _changed = ImGui::Checkbox(_label.c_str(), &value);
-    if (_changed) {
+    auto value{_value};
+    const auto changed{ImGui::Checkbox(_label.c_str(), &value)};
+    if (changed) {
       setValue(value);
+      trigger();
     }
   }
 };

@@ -10,8 +10,8 @@ public:
   virtual int elementId() const = 0;
   virtual std::string elementIdStr() const = 0;
   virtual void paint() = 0;
-  virtual bool handle() = 0;
-  virtual void trigger() = 0;
+  virtual bool handle() const = 0;
+  virtual void trigger() const = 0;
 
   virtual void loadState(const mINI::INIStructure &ini) {}
   virtual void saveState(mINI::INIStructure &ini) {}

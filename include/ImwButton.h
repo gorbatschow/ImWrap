@@ -16,21 +16,14 @@ public:
   // Is Button
   virtual bool isButtonElement() const override final { return true; }
 
-  // Handle
-  virtual bool handle() override {
-    const bool trig = _triggered;
-    _triggered = false;
-    return trig;
-  }
-
 protected:
   // Paint Element
   virtual void paintElement() override {
     const ImVec2 sz{std::isnan(_width) ? 0.f : _width,
                     std::isnan(_height) ? 0.f : _height};
-    _triggered = ImGui::Button(_label.c_str(), sz);
+    if (ImGui::Button(_label.c_str(), sz)) {
+      trigger();
+    }
   }
-
-  bool _triggered{false};
 };
 } // namespace Imw

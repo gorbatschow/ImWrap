@@ -59,10 +59,11 @@ template <> inline void SpinBox<int>::SpinBoxImpl() {
 
 template <> inline void SpinBox<int>::paintElementImpl() {
   int value{_value};
-  _changed =
-      ImGui::InputInt(_label.c_str(), &value, _valueStep, _valueFastStep);
-  if (_changed) {
+  const auto changed{
+      ImGui::InputInt(_label.c_str(), &value, _valueStep, _valueFastStep)};
+  if (changed) {
     setValue(value);
+    trigger();
   }
 }
 
@@ -77,10 +78,11 @@ template <> inline void SpinBox<float>::SpinBoxImpl() {
 
 template <> inline void SpinBox<float>::paintElementImpl() {
   float value{_value};
-  _changed = ImGui::InputFloat(_label.c_str(), &value, _valueStep,
-                               _valueFastStep, _textFormat.c_str());
-  if (_changed) {
+  const auto changed{ImGui::InputFloat(_label.c_str(), &value, _valueStep,
+                                       _valueFastStep, _textFormat.c_str())};
+  if (changed) {
     setValue(value);
+    trigger();
   }
 }
 

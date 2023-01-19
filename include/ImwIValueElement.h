@@ -15,16 +15,6 @@ public:
   // Is Value Element ?
   virtual bool isValueElement() const override final { return true; }
 
-  // Handle
-  virtual bool handle() const {
-    const auto changed{_changed};
-    _changed = false;
-    return changed;
-  }
-
-  // Trigger
-  virtual void trigger() const { _changed = true; }
-
   // Set Value
   virtual void setValue(const T &value, int index) = 0;
 
@@ -63,8 +53,6 @@ public:
 protected:
   // Paint Element
   virtual void paintElement() override {}
-
-  mutable bool _changed{false};
 };
 
 } // namespace Imw
