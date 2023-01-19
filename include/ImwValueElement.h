@@ -56,6 +56,27 @@ protected:
   inline void loadStateImpl(const mINI::INIStructure &ini) {}
   inline void saveStateImpl(mINI::INIStructure &ini) {}
 
+  // Default load from ini
+  void loadStateDefault(const mINI::INIStructure &ini,
+                        std::function<T(std::string)> transform) {
+    if (!ini.get(Base::elementIdStr()).has("value")) {
+      return;
+    }
+    const auto str = ini.get(Base::elementIdStr()).get("value");
+    try {
+      _value = transform(str);
+    } catch (const std::invalid_argument &e) {
+      std::cout << "Imw::ValueElement<> Can't load from INI"
+                << "std::invalid_argument" << e.what() << std::endl;
+    } catch (const std::out_of_range &e) {
+    }
+  }
+
+  // Default save to ini
+  void saveStateDefault(mINI::INIStructure &ini) {
+    ini[Base::elementIdStr()]["value"] = std::to_string(value());
+  }
+
   T _value{};
 };
 
@@ -63,69 +84,37 @@ protected:
 // -----------------------------------------------------------------------------
 template <>
 inline void ValueElement<bool>::loadStateImpl(const mINI::INIStructure &ini) {
-  if (!ini.get(Base::elementIdStr()).has("value")) {
-    return;
-  }
-
-  const auto str = ini.get(Base::elementIdStr()).get("value");
-  try {
-    _value = bool(std::stoi(str));
-  } catch (const std::invalid_argument &e) {
-    std::cout << "Imw::ValueElement<bool> Can't load from INI"
-              << "std::invalid_argument" << e.what() << std::endl;
-  } catch (const std::out_of_range &e) {
-  }
+  loadStateDefault(ini,
+                   [](const std::string &str) { return bool(std::stoi(str)); });
 }
 
 template <>
 inline void ValueElement<bool>::saveStateImpl(mINI::INIStructure &ini) {
-  ini[Base::elementIdStr()]["value"] = std::to_string(_value);
+  saveStateDefault(ini);
 }
 
 // ValueElement<int>
 // -----------------------------------------------------------------------------
 template <>
 inline void ValueElement<int>::loadStateImpl(const mINI::INIStructure &ini) {
-  if (!ini.get(Base::elementIdStr()).has("value")) {
-    return;
-  }
-
-  const auto str = ini.get(Base::elementIdStr()).get("value");
-  try {
-    _value = std::stoi(str);
-  } catch (const std::invalid_argument &e) {
-    std::cout << "Imw::ValueElement<int> Can't load from INI "
-              << "std::invalid_argument" << e.what() << std::endl;
-  } catch (const std::out_of_range &e) {
-  }
+  loadStateDefault(ini, [](const std::string &str) { return std::stoi(str); });
 }
 
 template <>
 inline void ValueElement<int>::saveStateImpl(mINI::INIStructure &ini) {
-  ini[Base::elementIdStr()]["value"] = std::to_string(_value);
+  saveStateDefault(ini);
 }
 
 // ValueElement<float>
 // -----------------------------------------------------------------------------
 template <>
 inline void ValueElement<float>::loadStateImpl(const mINI::INIStructure &ini) {
-  if (!ini.get(Base::elementIdStr()).has("value")) {
-    return;
-  }
-
-  const auto str = ini.get(Base::elementIdStr()).get("value");
-  try {
-    _value = std::stof(str);
-  } catch (const std::invalid_argument &e) {
-    std::cout << "Imw::ValueElement<float> Can't load from INI"
-              << "std::invalid_argument" << e.what() << std::endl;
-  } catch (const std::out_of_range &e) {
-  }
+  loadStateDefault(ini, [](const std::string &str) { return std::stof(str); });
 }
 
 template <>
 inline void ValueElement<float>::saveStateImpl(mINI::INIStructure &ini) {
-  ini[Base::elementIdStr()]["value"] = std::to_string(_value);
+  saveStateDefault(ini);
 }
 
 } // namespace Imw
