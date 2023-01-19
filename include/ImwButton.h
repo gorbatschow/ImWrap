@@ -13,6 +13,9 @@ public:
   // Destructor
   virtual ~Button() override = default;
 
+  // Is Button
+  virtual bool isButtonElement() const override final { return true; }
+
   // Handle
   virtual bool handle() override {
     const bool trig = _triggered;

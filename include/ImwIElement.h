@@ -15,5 +15,8 @@ public:
 
   virtual void loadState(const mINI::INIStructure &ini) {}
   virtual void saveState(mINI::INIStructure &ini) {}
+
+  virtual bool isValueElement() const { return false; }
+  virtual bool isButtonElement() const { return false; }
 };
 } // namespace Imw

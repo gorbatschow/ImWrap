@@ -52,6 +52,15 @@ public:
     iniFile.write(ini);
   }
 
+  // Trigger Value Element
+  inline void triggerValueElement() {
+    for (auto &element : _elements) {
+      if (element->isValueElement()) {
+        element->trigger();
+      }
+    }
+  }
+
   // Get Elements
   inline const std::vector<IElement *> &elements() const { return _elements; }
 

@@ -12,6 +12,9 @@ public:
   // Destructor
   virtual ~IValueElement() override = default;
 
+  // Is Value Element ?
+  virtual bool isValueElement() const override final { return true; }
+
   // Handle
   virtual bool handle() const {
     const auto changed{_changed};
