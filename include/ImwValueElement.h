@@ -74,7 +74,7 @@ protected:
 
   // Default save to ini
   void saveStateDefault(mINI::INIStructure &ini) {
-    ini[Base::elementIdStr()]["value"] = std::to_string(value());
+    ini[Base::elementIdStr()]["value"] = std::to_string(_value);
   }
 
   T _value{};
