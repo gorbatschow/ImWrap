@@ -56,7 +56,7 @@ protected:
   inline void loadStateImpl(const mINI::INIStructure &ini) {}
   inline void saveStateImpl(mINI::INIStructure &ini) {}
 
-  // Default load from ini
+  // Default load from INI file
   void loadStateDefault(const mINI::INIStructure &ini,
                         std::function<T(std::string)> transform) {
     if (!ini.get(Base::elementIdStr()).has("value")) {
@@ -72,7 +72,7 @@ protected:
     }
   }
 
-  // Default save to ini
+  // Default save to INI file
   void saveStateDefault(mINI::INIStructure &ini) {
     ini[Base::elementIdStr()]["value"] = std::to_string(_value);
   }
