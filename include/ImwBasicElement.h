@@ -1,4 +1,5 @@
 #pragma once
+#include "ImwElementWatcher.h"
 #include "ImwIElement.h"
 #include <cmath>
 #include <imgui.h>
@@ -8,10 +9,22 @@ namespace Imw {
 class BasicElement : public IElement {
 public:
   // Constructor
-  BasicElement(const std::string &label = {}) : _label{label} {}
+  BasicElement(const std::string &label = {})
+      : _label{label}, _elementId{ElementWatcher::instance().makeElementId()} {
+    ElementWatcher::instance().addElement(this);
+  }
 
   // Destructor
-  virtual ~BasicElement() override = default;
+  virtual ~BasicElement() override {
+    ElementWatcher::instance().removeElement(this);
+  }
+
+  // Element Id
+  virtual int elementId() const override final { return _elementId; }
+
+  std::string elementIdStr() const override final {
+    return "imw_element_" + std::to_string(_elementId);
+  }
 
   // Paint
   virtual void paint() override {
@@ -76,5 +89,6 @@ protected:
   float _sameLineSpacing{-1.0f};
   std::string _textFormat{};
   std::string _placeHolder{};
+  int _elementId{};
 };
 } // namespace Imw

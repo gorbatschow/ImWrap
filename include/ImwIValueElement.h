@@ -1,5 +1,6 @@
 #pragma once
 #include "ImwBasicElement.h"
+#include <ini.h>
 #include <vector>
 
 namespace Imw {
@@ -62,4 +63,5 @@ protected:
 
   mutable bool _changed{false};
 };
+
 } // namespace Imw
