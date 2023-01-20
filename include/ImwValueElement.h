@@ -2,6 +2,7 @@
 #include "ImwIValueElement.h"
 #include <algorithm>
 #include <array>
+#include <functional>
 #include <iostream>
 
 namespace Imw {
