@@ -1,5 +1,6 @@
 #pragma once
 #include "ImwIValueElement.h"
+#include "ImwNamedValue.h"
 #include <algorithm>
 #include <iostream>
 #include <vector>
@@ -98,7 +99,7 @@ protected:
   int _currIndex{};
 };
 
-// ValueElement<bool>
+// MultiValueElement<bool>
 // -----------------------------------------------------------------------------
 template <>
 inline void
@@ -112,7 +113,7 @@ inline void MultiValueElement<bool>::saveStateImpl(mINI::INIStructure &ini) {
   saveStateDefault(ini);
 }
 
-// ValueElement<int>
+// MultiValueElement<int>
 // -----------------------------------------------------------------------------
 template <>
 inline void
@@ -125,7 +126,7 @@ inline void MultiValueElement<int>::saveStateImpl(mINI::INIStructure &ini) {
   saveStateDefault(ini);
 }
 
-// ValueElement<float>
+// MultiValueElement<float>
 // -----------------------------------------------------------------------------
 template <>
 inline void
@@ -137,5 +138,11 @@ template <>
 inline void MultiValueElement<float>::saveStateImpl(mINI::INIStructure &ini) {
   saveStateDefault(ini);
 }
+
+// MultiValueElement<NamedValue<int>>
+// -----------------------------------------------------------------------------
+template <>
+inline void MultiValueElement<NamedValue<int>>::loadStateImpl(
+    const mINI::INIStructure &ini) {}
 
 } // namespace Imw
