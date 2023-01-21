@@ -76,16 +76,17 @@ protected:
     static const auto key_base{"value_"};
     int index{};
     for (const auto &item : ini.get(Base::elementIdStr())) {
-      const auto key{item.first};
-      if (key.size() < strlen(key_base) ||
-          key.substr(0, strlen(key_base)) != key_base) {
-        continue;
+      if (item.first != key_base + std::to_string(index)) {
+        // Bad INI
+        return;
       }
       try {
         _valueList.at(index) = transform(item.second);
       } catch (const std::invalid_argument &e) {
         std::cout << "Imw::MultiValueElement<> Can't load from INI"
-                  << "std::invalid_argument" << e.what() << std::endl;
+                  << " "
+                  << "std::invalid_argument"
+                  << " " << e.what() << std::endl;
       } catch (const std::out_of_range &e) {
       }
       index++;
@@ -101,6 +102,32 @@ protected:
       ini[Base::elementIdStr()][key] = std::to_string(item);
       index++;
     }
+  }
+
+  // Index load from INI file
+  void loadStateIndex(const mINI::INIStructure &ini) {
+    static const auto key{"index"};
+    if (ini.get(Base::elementIdStr()).has(key)) {
+      int index{-1};
+      try {
+        index = std::stoi(ini.get(Base::elementIdStr()).get(key));
+      } catch (const std::invalid_argument &e) {
+        std::cout << "Imw::MultiValueElement<> Can't load from INI"
+                  << " "
+                  << "std::invalid_argument"
+                  << " " << e.what() << std::endl;
+      } catch (const std::out_of_range &e) {
+      }
+      if (index >= 0 && index < _valueList.size()) {
+        _currIndex = index;
+      }
+    }
+  }
+
+  // Index save to INI file
+  void saveStateIndex(mINI::INIStructure &ini) {
+    static const auto key{"index"};
+    ini[Base::elementIdStr()][key] = std::to_string(_currIndex);
   }
 
   std::vector<T> _valueList{};
@@ -145,6 +172,20 @@ MultiValueElement<float>::loadStateImpl(const mINI::INIStructure &ini) {
 template <>
 inline void MultiValueElement<float>::saveStateImpl(mINI::INIStructure &ini) {
   saveStateDefault(ini);
+}
+
+// MultiValueElement<NamedValue<int>>
+// -----------------------------------------------------------------------------
+template <>
+inline void MultiValueElement<NamedValue<int>>::loadStateImpl(
+    const mINI::INIStructure &ini) {
+  loadStateIndex(ini);
+}
+
+template <>
+inline void
+MultiValueElement<NamedValue<int>>::saveStateImpl(mINI::INIStructure &ini) {
+  saveStateIndex(ini);
 }
 
 } // namespace Imw
