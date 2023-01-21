@@ -19,6 +19,27 @@ public:
   // Destructor
   virtual ~ComboBox() override{};
 
+  // Load State
+  virtual void loadState(const mINI::INIStructure &ini) override {
+    static constexpr auto key{"name"};
+    if (!ini.get(Base::elementIdStr()).has(key)) {
+      return;
+    }
+    const auto name{ini.get(Base::elementIdStr()).get(key)};
+    const auto it{std::find_if(
+        Base::_valueList.begin(), Base::_valueList.end(),
+        [&name](const NamedValue<T> &value) { return value.name() == name; })};
+    if (it != Base::_valueList.end()) {
+      Base::_currIndex = std::distance(Base::_valueList.begin(), it);
+    }
+  }
+
+  // Save State
+  virtual void saveState(mINI::INIStructure &ini) override {
+    static constexpr auto key{"name"};
+    ini[Base::elementIdStr()][key] = Base::currentValue().name();
+  }
+
   // Get Value
   inline const T &operator()() { return Base::currentValue(); }
 
