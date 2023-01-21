@@ -26,6 +26,11 @@ public:
     return "imw_element_" + std::to_string(_elementId);
   }
 
+  // Load State
+  virtual void loadStateFromFile() override {
+    ElementWatcher::instance().loadElementState(this);
+  }
+
   // Paint
   virtual void paint() override {
     ImGui::PushID(this);

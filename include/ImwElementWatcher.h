@@ -20,6 +20,12 @@ private:
   // </Singleton>
 
 public:
+  // Ini File Name
+  inline void setIniFileName(const std::string &fname) { _iniFileName = fname; }
+
+  // File Name
+  inline const std::string &iniFileName() const { return _iniFileName; }
+
   // Make Element Id
   inline int makeElementId() { return _elementCounter++; }
 
@@ -32,9 +38,16 @@ public:
                    [element](IElement *item) { return element == item; });
   }
 
+  inline void loadElementState(IElement *element) {
+    mINI::INIFile iniFile(_iniFileName);
+    mINI::INIStructure ini;
+    iniFile.read(ini);
+    element->loadState(ini);
+  }
+
   // Load Element State
-  inline void loadElementState(const std::string &file = "imwrap.ini") {
-    mINI::INIFile iniFile(file);
+  inline void loadElementState() {
+    mINI::INIFile iniFile(_iniFileName);
     mINI::INIStructure ini;
     iniFile.read(ini);
     for (auto &element : _elements) {
@@ -43,8 +56,8 @@ public:
   }
 
   // Save Element State
-  inline void saveElementState(const std::string &file = "imwrap.ini") {
-    mINI::INIFile iniFile(file);
+  inline void saveElementState() {
+    mINI::INIFile iniFile(_iniFileName);
     mINI::INIStructure ini;
     for (auto &element : _elements) {
       element->saveState(ini);
@@ -65,6 +78,7 @@ public:
   inline const std::vector<IElement *> &elements() const { return _elements; }
 
 private:
+  std::string _iniFileName{"imwrap.ini"};
   std::vector<IElement *> _elements;
   int _elementCounter{};
 };
