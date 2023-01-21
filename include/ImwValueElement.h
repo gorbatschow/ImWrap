@@ -65,7 +65,7 @@ protected:
     }
     const auto str = ini.get(Base::elementIdStr()).get("value");
     try {
-      _value = transform(str);
+      setValue(transform(str));
     } catch (const std::invalid_argument &e) {
       std::cout << "Imw::ValueElement<> Can't load from INI"
                 << "std::invalid_argument" << e.what() << std::endl;

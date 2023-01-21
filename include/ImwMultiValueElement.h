@@ -81,7 +81,7 @@ protected:
         return;
       }
       try {
-        _valueList.at(index) = transform(item.second);
+        setValue(transform(item.second), index);
       } catch (const std::invalid_argument &e) {
         std::cout << "Imw::MultiValueElement<> Can't load from INI"
                   << " "
@@ -119,7 +119,7 @@ protected:
       } catch (const std::out_of_range &e) {
       }
       if (index >= 0 && index < _valueList.size()) {
-        _currIndex = index;
+        setCurrentIndex(index);
       }
     }
   }
