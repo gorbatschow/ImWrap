@@ -17,7 +17,17 @@ public:
       : Base(values.size(), label), Base::_valueList(values) {}
 
   // Destructor
-  virtual ~ComboBox() override{};
+  virtual ~ComboBox() override = default;
+
+  // Set Current Name
+  virtual void setCurrentName(const std::string &name) override {
+    const auto it{std::find_if(
+        Base::_valueList.begin(), Base::_valueList.end(),
+        [&name](const NamedValue<T> &value) { return value.name() == name; })};
+    if (it != Base::_valueList.end()) {
+      Base::setCurrentIndex(std::distance(Base::_valueList.begin(), it));
+    }
+  }
 
   // Load State
   virtual void loadState(const mINI::INIStructure &ini) override {
@@ -25,23 +35,21 @@ public:
     if (!ini.get(Base::elementIdStr()).has(key)) {
       return;
     }
-    const auto name{ini.get(Base::elementIdStr()).get(key)};
-    const auto it{std::find_if(
-        Base::_valueList.begin(), Base::_valueList.end(),
-        [&name](const NamedValue<T> &value) { return value.name() == name; })};
-    if (it != Base::_valueList.end()) {
-      Base::_currIndex = std::distance(Base::_valueList.begin(), it);
-    }
+    setCurrentName({ini.get(Base::elementIdStr()).get(key)});
   }
 
   // Save State
   virtual void saveState(mINI::INIStructure &ini) override {
     static constexpr auto key{"name"};
-    ini[Base::elementIdStr()][key] = Base::currentValue().name();
+    if (Base::isCurrentValid()) {
+      ini[Base::elementIdStr()][key] = Base::currentValue().name();
+    }
   }
 
   // Get Value
   inline const T &operator()() { return Base::currentValue(); }
+
+  // Set Value by Name
 
 protected:
   // Paint Element

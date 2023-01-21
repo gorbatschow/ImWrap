@@ -25,6 +25,9 @@ public:
   // Get Value Count
   virtual int valueCount() const = 0;
 
+  // Check Current Value
+  virtual bool isCurrentValid() const = 0;
+
   // Set Current Index
   virtual void setCurrentIndex(int index) = 0;
 
@@ -38,8 +41,8 @@ public:
   virtual const T &currentValue() const = 0;
   inline const T &operator()() { return currentValue(); }
 
-  // Check Current Value
-  virtual bool isCurrentValid() const = 0;
+  // Set Current Name
+  virtual void setCurrentName(const std::string &name) {}
 
   // Set Value Limits
   virtual void setValueLimits(const std::pair<T, T> &limits, int index){};

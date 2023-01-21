@@ -29,6 +29,9 @@ public:
     saveStateImpl(ini);
   }
 
+  // Check Current Value
+  virtual bool isCurrentValid() const override { return _currIndex >= 0; }
+
   // Set Value
   virtual void setValue(const T &value, int index) override {
     _valueList.at(index) = value;
@@ -53,11 +56,11 @@ public:
 
   // Get Current Value
   virtual const T &currentValue() const override {
+    if (_currIndex < 0 && _valueList.size() > 0) {
+      _currIndex = 0;
+    }
     return _valueList.at(_currIndex);
   }
-
-  // Check Current Value
-  virtual bool isCurrentValid() const override { return _currIndex >= 0; }
 
   // Set Value List
   virtual void setValueList(const std::vector<T> &valueList) override {
@@ -134,7 +137,7 @@ protected:
   }
 
   std::vector<T> _valueList{};
-  int _currIndex{};
+  mutable int _currIndex{-1};
 };
 
 // MultiValueElement<bool>
