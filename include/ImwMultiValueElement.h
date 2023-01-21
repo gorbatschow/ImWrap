@@ -2,6 +2,7 @@
 #include "ImwIValueElement.h"
 #include "ImwNamedValue.h"
 #include <algorithm>
+#include <functional>
 #include <iostream>
 #include <vector>
 
