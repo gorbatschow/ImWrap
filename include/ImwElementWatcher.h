@@ -16,12 +16,16 @@ public:
   void operator=(ElementWatcher const &) = delete;
 
 private:
-  ElementWatcher() {}
+  ElementWatcher() { setIniFileName("imwrap.ini"); }
   // </Singleton>
 
 public:
   // Ini File Name
-  inline void setIniFileName(const std::string &fname) { _iniFileName = fname; }
+  inline void setIniFileName(const std::string &fname) {
+    _iniFileName = fname;
+    mINI::INIFile iniFile(fname);
+    iniFile.read(_ini);
+  }
 
   // File Name
   inline const std::string &iniFileName() const { return _iniFileName; }
@@ -38,22 +42,19 @@ public:
                    [element](IElement *item) { return element == item; });
   }
 
-  inline void loadElementState(IElement *element) {
-    mINI::INIFile iniFile(_iniFileName);
-    mINI::INIStructure ini;
-    iniFile.read(ini);
-    element->loadState(ini);
+  // Load Element State
+  inline void loadElementState(IElement *element) { element->loadState(_ini); }
+
+  // Load Element State
+  inline void loadElementState(const std::vector<IElement *> &elementList) {
+
+    for (auto &element : elementList) {
+      element->loadState(_ini);
+    }
   }
 
   // Load Element State
-  inline void loadElementState() {
-    mINI::INIFile iniFile(_iniFileName);
-    mINI::INIStructure ini;
-    iniFile.read(ini);
-    for (auto &element : _elements) {
-      element->loadState(ini);
-    }
-  }
+  inline void loadElementState() { loadElementState(_elements); }
 
   // Save Element State
   inline void saveElementState() {
@@ -78,8 +79,9 @@ public:
   inline const std::vector<IElement *> &elements() const { return _elements; }
 
 private:
-  std::string _iniFileName{"imwrap.ini"};
   std::vector<IElement *> _elements;
   int _elementCounter{};
+  mINI::INIStructure _ini;
+  std::string _iniFileName;
 };
 } // namespace Imw
