@@ -73,8 +73,14 @@ protected:
   // Default load from INI file
   void loadStateDefault(const mINI::INIStructure &ini,
                         std::function<T(std::string)> transform) {
+    static const auto key_base{"value_"};
     int index{};
     for (const auto &item : ini.get(Base::elementIdStr())) {
+      const auto key{item.first};
+      if (key.size() < strlen(key_base) ||
+          key.substr(0, strlen(key_base)) != key_base) {
+        continue;
+      }
       try {
         _valueList.at(index) = transform(item.second);
       } catch (const std::invalid_argument &e) {
@@ -88,9 +94,10 @@ protected:
 
   // Default save to INI file
   void saveStateDefault(mINI::INIStructure &ini) {
+    static const auto key_base{"value_"};
     int index{};
     for (const auto &item : _valueList) {
-      const std::string key{"value_" + std::to_string(index)};
+      const std::string key{key_base + std::to_string(index)};
       ini[Base::elementIdStr()][key] = std::to_string(item);
       index++;
     }
@@ -139,11 +146,5 @@ template <>
 inline void MultiValueElement<float>::saveStateImpl(mINI::INIStructure &ini) {
   saveStateDefault(ini);
 }
-
-// MultiValueElement<NamedValue<int>>
-// -----------------------------------------------------------------------------
-template <>
-inline void MultiValueElement<NamedValue<int>>::loadStateImpl(
-    const mINI::INIStructure &ini) {}
 
 } // namespace Imw
