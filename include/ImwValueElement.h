@@ -51,6 +51,9 @@ public:
   // Get Current Value
   virtual const T &currentValue() const override { return value(); }
 
+  // Check Current Value
+  virtual bool isCurrentValid() const override { return true; }
+
 protected:
   virtual void paintElement() override {}
   inline void ValueElementImpl() {}

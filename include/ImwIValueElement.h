@@ -38,6 +38,9 @@ public:
   virtual const T &currentValue() const = 0;
   inline const T &operator()() { return currentValue(); }
 
+  // Check Current Value
+  virtual bool isCurrentValid() const = 0;
+
   // Set Value Limits
   virtual void setValueLimits(const std::pair<T, T> &limits, int index){};
 

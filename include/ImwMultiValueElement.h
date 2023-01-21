@@ -56,6 +56,9 @@ public:
     return _valueList.at(_currIndex);
   }
 
+  // Check Current Value
+  virtual bool isCurrentValid() const override { return _currIndex >= 0; }
+
   // Set Value List
   virtual void setValueList(const std::vector<T> &valueList) override {
     _valueList = valueList;
