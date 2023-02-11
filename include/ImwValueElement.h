@@ -121,4 +121,16 @@ inline void ValueElement<float>::saveStateImpl(mINI::INIStructure &ini) {
   saveStateDefault(ini);
 }
 
-} // namespace Imw
+// ValueElement<std::string>
+// -----------------------------------------------------------------------------
+template <>
+inline void ValueElement<std::string>::loadStateImpl(const mINI::INIStructure &ini) {
+  loadStateDefault(ini, [](const std::string &str) { return str; });
+}
+
+template <>
+inline void ValueElement<std::string>::saveStateImpl(mINI::INIStructure &ini) {
+  ini[Base::elementIdStr()]["value"] = _value;
+}
+
+}  // namespace Imw
