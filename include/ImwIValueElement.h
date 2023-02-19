@@ -20,7 +20,7 @@ public:
 
   // Get Value
   virtual const T &value(int index) const = 0;
-  inline const T &operator()(int index) { return value(index); }
+  inline const T &operator()(int index) const { return value(index); }
 
   // Get Value Count
   virtual int valueCount() const = 0;
