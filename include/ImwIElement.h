@@ -15,6 +15,8 @@ public:
   virtual void trigger() const = 0;
 
   virtual void loadStateFromFile() {}
+  virtual void saveStateToFile() {}
+
   virtual void loadState(const mINI::INIStructure &ini) {}
   virtual void saveState(mINI::INIStructure &ini) {}
 

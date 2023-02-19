@@ -81,6 +81,11 @@ protected:
     ini[Base::elementIdStr()]["value"] = std::to_string(_value);
   }
 
+  void saveStateDefault(mINI::INIStructure &ini,
+                        std::function<T(std::string)> transform) {
+    ini[Base::elementIdStr()]["value"] = transform(_value);
+  }
+
   T _value{};
 };
 
@@ -124,13 +129,14 @@ inline void ValueElement<float>::saveStateImpl(mINI::INIStructure &ini) {
 // ValueElement<std::string>
 // -----------------------------------------------------------------------------
 template <>
-inline void ValueElement<std::string>::loadStateImpl(const mINI::INIStructure &ini) {
+inline void
+ValueElement<std::string>::loadStateImpl(const mINI::INIStructure &ini) {
   loadStateDefault(ini, [](const std::string &str) { return str; });
 }
 
 template <>
 inline void ValueElement<std::string>::saveStateImpl(mINI::INIStructure &ini) {
-  ini[Base::elementIdStr()]["value"] = _value;
+  saveStateDefault(ini, [](const std::string &str) { return str; });
 }
 
-}  // namespace Imw
+} // namespace Imw

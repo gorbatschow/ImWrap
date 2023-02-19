@@ -23,7 +23,7 @@ public:
   // Ini File Name
   inline void setIniFileName(const std::string &fname) {
     _iniFileName = fname;
-    mINI::INIFile iniFile(fname);
+    mINI::INIFile iniFile(_iniFileName);
     iniFile.read(_ini);
   }
 
@@ -47,7 +47,6 @@ public:
 
   // Load Element State
   inline void loadElementState(const std::vector<IElement *> &elementList) {
-
     for (auto &element : elementList) {
       element->loadState(_ini);
     }
@@ -57,13 +56,19 @@ public:
   inline void loadElementState() { loadElementState(_elements); }
 
   // Save Element State
+  inline void saveElementState(IElement *element) {
+    element->saveState(_ini);
+    mINI::INIFile iniFile(_iniFileName);
+    iniFile.write(_ini);
+  }
+
+  // Save Element State
   inline void saveElementState() {
     mINI::INIFile iniFile(_iniFileName);
-    mINI::INIStructure ini;
     for (auto &element : _elements) {
-      element->saveState(ini);
+      element->saveState(_ini);
     }
-    iniFile.write(ini);
+    iniFile.write(_ini);
   }
 
   // Trigger Value Element

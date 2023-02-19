@@ -31,6 +31,10 @@ public:
     ElementWatcher::instance().loadElementState(this);
   }
 
+  virtual void saveStateToFile() override {
+    ElementWatcher::instance().saveElementState(this);
+  }
+
   // Paint
   virtual void paint() override {
     ImGui::PushID(this);

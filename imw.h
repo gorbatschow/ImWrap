@@ -12,5 +12,6 @@
 #include <include/ImwNamedValue.h>
 #include <include/ImwSlider.h>
 #include <include/ImwSpinBox.h>
+#include <include/ImwTextEdit.h>
 #include <include/ImwValueElement.h>
 #include <include/ImwValueLabel.h>
