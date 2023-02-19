@@ -39,7 +39,7 @@ public:
 
   // Get Current Value
   virtual const T &currentValue() const = 0;
-  inline const T &operator()() { return currentValue(); }
+  inline const T &operator()() const { return currentValue(); }
 
   // Set Current Name
   virtual void setCurrentName(const std::string &name) {}
