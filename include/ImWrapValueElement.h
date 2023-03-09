@@ -1,11 +1,11 @@
 #pragma once
-#include "ImwIValueElement.h"
+#include "ImWrapIValueElement.h"
 #include <algorithm>
 #include <array>
 #include <functional>
 #include <iostream>
 
-namespace Imw {
+namespace ImWrap {
 template <typename T> class ValueElement : public IValueElement<T> {
   using Base = IValueElement<T>;
 
@@ -139,4 +139,4 @@ inline void ValueElement<std::string>::saveStateImpl(mINI::INIStructure &ini) {
   saveStateDefault(ini, [](const std::string &str) { return str; });
 }
 
-} // namespace Imw
+} // namespace ImWrap

@@ -1,12 +1,12 @@
 #pragma once
-#include "ImwIValueElement.h"
-#include "ImwNamedValue.h"
+#include "ImWrapIValueElement.h"
+#include "ImWrapNamedValue.h"
 #include <algorithm>
 #include <functional>
 #include <iostream>
 #include <vector>
 
-namespace Imw {
+namespace ImWrap {
 template <typename T> class MultiValueElement : public IValueElement<T> {
   using Base = IValueElement<T>;
 
@@ -194,4 +194,4 @@ MultiValueElement<NamedValue<int>>::saveStateImpl(mINI::INIStructure &ini) {
   saveStateIndex(ini);
 }
 
-} // namespace Imw
+} // namespace ImWrap

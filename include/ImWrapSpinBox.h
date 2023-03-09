@@ -1,7 +1,7 @@
 #pragma once
-#include "ImwValueElement.h"
+#include "ImWrapValueElement.h"
 
-namespace Imw {
+namespace ImWrap {
 template <typename T> class SpinBox : public ValueElement<T> {
   using Base = ValueElement<T>;
   static constexpr std::pair<int, int> DefaultLimits{
@@ -86,4 +86,4 @@ template <> inline void SpinBox<float>::paintElementImpl() {
   }
 }
 
-} // namespace Imw
+} // namespace ImWrap

@@ -2,7 +2,7 @@
 #include <ini.h>
 #include <string>
 
-namespace Imw {
+namespace ImWrap {
 class IElement {
 public:
   virtual ~IElement() {}
@@ -23,4 +23,4 @@ public:
   virtual bool isValueElement() const { return false; }
   virtual bool isButtonElement() const { return false; }
 };
-} // namespace Imw
+} // namespace ImWrap

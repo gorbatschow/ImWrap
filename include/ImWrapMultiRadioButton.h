@@ -1,8 +1,8 @@
 #pragma once
-#include "ImwMultiValueElement.h"
-#include "ImwNamedValue.h"
+#include "ImWrapMultiValueElement.h"
+#include "ImWrapNamedValue.h"
 
-namespace Imw {
+namespace ImWrap {
 class MultiRadioButton : public MultiValueElement<NamedValue<int>> {
   using Base = MultiValueElement<NamedValue<int>>;
 
@@ -52,4 +52,4 @@ protected:
   }
 };
 
-} // namespace Imw
+} // namespace ImWrap

@@ -1,11 +1,11 @@
 #pragma once
-#include "ImwElementWatcher.h"
-#include "ImwIElement.h"
+#include "ImWrapElementWatcher.h"
+#include "ImWrapIElement.h"
 #include <cmath>
 #include <imgui.h>
 #include <string>
 
-namespace Imw {
+namespace ImWrap {
 class BasicElement : public IElement {
 public:
   // Constructor
@@ -106,4 +106,4 @@ protected:
 
   mutable bool _triggered{false};
 };
-} // namespace Imw
+} // namespace ImWrap

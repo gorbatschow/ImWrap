@@ -1,9 +1,9 @@
 #pragma once
-#include "ImwValueElement.h"
+#include "ImWrapValueElement.h"
 #include <misc/cpp/imgui_stdlib.h>
 #include <string>
 
-namespace Imw {
+namespace ImWrap {
 class TextEdit : public ValueElement<std::string> {
 public:
   // Constructor
@@ -21,4 +21,4 @@ protected:
   }
 };
 
-} // namespace Imw
+} // namespace ImWrap

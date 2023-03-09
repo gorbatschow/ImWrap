@@ -1,9 +1,9 @@
 #pragma once
-#include "ImwBasicElement.h"
+#include "ImWrapBasicElement.h"
 #include <ini.h>
 #include <vector>
 
-namespace Imw {
+namespace ImWrap {
 template <typename T> class IValueElement : public BasicElement {
 public:
   // Constructor
@@ -61,4 +61,4 @@ protected:
   virtual void paintElement() override {}
 };
 
-} // namespace Imw
+} // namespace ImWrap

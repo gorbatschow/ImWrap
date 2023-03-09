@@ -1,7 +1,7 @@
 #pragma once
-#include "ImwValueElement.h"
+#include "ImWrapValueElement.h"
 
-namespace Imw {
+namespace ImWrap {
 template <typename T> class Slider : public ValueElement<T> {
   using Base = ValueElement<T>;
 
@@ -62,4 +62,4 @@ template <> inline void Slider<float>::paintElementImpl() {
   }
 }
 
-} // namespace Imw
+} // namespace ImWrap

@@ -1,9 +1,9 @@
 #pragma once
-#include "ImwMultiValueElement.h"
-#include "ImwNamedValue.h"
+#include "ImWrapMultiValueElement.h"
+#include "ImWrapNamedValue.h"
 #include <vector>
 
-namespace Imw {
+namespace ImWrap {
 template <typename T> class ComboBox : public MultiValueElement<NamedValue<T>> {
   using Base = MultiValueElement<NamedValue<T>>;
 
@@ -77,4 +77,4 @@ protected:
     }
   }
 };
-} // namespace Imw
+} // namespace ImWrap

@@ -1,7 +1,7 @@
 #pragma once
-#include "ImwBasicElement.h"
+#include "ImWrapBasicElement.h"
 
-namespace Imw {
+namespace ImWrap {
 class Button : public BasicElement {
 public:
   // Constructor
@@ -26,4 +26,4 @@ protected:
     }
   }
 };
-} // namespace Imw
+} // namespace ImWrap

@@ -1,7 +1,7 @@
 #pragma once
-#include "ImwValueElement.h"
+#include "ImWrapValueElement.h"
 
-namespace Imw {
+namespace ImWrap {
 class CheckBox : public ValueElement<bool> {
 public:
   // Constructor
@@ -21,4 +21,4 @@ protected:
     }
   }
 };
-} // namespace Imw
+} // namespace ImWrap

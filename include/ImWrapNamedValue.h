@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-namespace Imw {
+namespace ImWrap {
 template <typename T> class NamedValue {
 public:
   NamedValue() = default;
@@ -49,4 +49,4 @@ private:
   std::string _name;
 };
 
-} // namespace Imw
+} // namespace ImWrap

@@ -1,10 +1,10 @@
 #pragma once
-#include "ImwIElement.h"
+#include "ImWrapIElement.h"
 #include <algorithm>
 #include <memory>
 #include <vector>
 
-namespace Imw {
+namespace ImWrap {
 class ElementWatcher {
   // <Singleton>
 public:
@@ -89,4 +89,4 @@ private:
   mINI::INIStructure _ini;
   std::string _iniFileName;
 };
-} // namespace Imw
+} // namespace ImWrap

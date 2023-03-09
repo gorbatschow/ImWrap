@@ -1,7 +1,7 @@
 #pragma once
-#include "ImwBasicElement.h"
+#include "ImWrapBasicElement.h"
 
-namespace Imw {
+namespace ImWrap {
 class Label : public BasicElement {
 public:
   // Constructor
@@ -17,4 +17,4 @@ protected:
     ImGui::Text("%s", _label.c_str());
   }
 };
-} // namespace Imw
+} // namespace ImWrap

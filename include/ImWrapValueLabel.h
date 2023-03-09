@@ -1,7 +1,7 @@
 #pragma once
-#include "ImwValueElement.h"
+#include "ImWrapValueElement.h"
 
-namespace Imw {
+namespace ImWrap {
 template <typename T> class ValueLabel : public ValueElement<T> {
 public:
   // Constructor
@@ -18,4 +18,4 @@ protected:
   }
 };
 
-} // namespace Imw
+} // namespace ImWrap

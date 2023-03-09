@@ -1,9 +1,9 @@
 #pragma once
-#include "ImwMultiValueElement.h"
+#include "ImWrapMultiValueElement.h"
 #include <algorithm>
 #include <array>
 
-namespace Imw {
+namespace ImWrap {
 template <typename T> class MultiSpinBox : public MultiValueElement<T> {
   using Base = MultiValueElement<T>;
   static constexpr std::pair<int, int> DefaultLimits{
@@ -111,4 +111,4 @@ template <> inline void MultiSpinBox<float>::paintElementImpl() {
   }
 }
 
-} // namespace Imw
+} // namespace ImWrap
