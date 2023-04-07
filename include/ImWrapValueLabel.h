@@ -5,7 +5,8 @@ namespace ImWrap {
 template <typename T> class ValueLabel : public ValueElement<T> {
 public:
   // Constructor
-  ValueLabel(const std::string &label = {}) : ValueElement<T>(label) {}
+  ValueLabel(const std::string &label = {}, const T &value = {})
+      : ValueElement<T>(label, value) {}
 
   // Destructor
   virtual ~ValueLabel() override = default;

@@ -7,7 +7,10 @@ template <typename T> class Slider : public ValueElement<T> {
 
 public:
   // Constructor
-  Slider(const std::string &label = {}) : Base(label) { SliderImpl(); }
+  Slider(const std::string &label = {}, const T &value = {})
+      : Base(label, value) {
+    SliderImpl();
+  }
 
   // Destructor
   virtual ~Slider() override = default;

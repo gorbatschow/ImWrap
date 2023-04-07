@@ -7,7 +7,8 @@ namespace ImWrap {
 class TextEdit : public ValueElement<std::string> {
 public:
   // Constructor
-  TextEdit(const std::string &label = {}) : ValueElement<std::string>(label) {}
+  TextEdit(const std::string &label = {}, const std::string &value = {})
+      : ValueElement<std::string>(label, value) {}
 
   // Destructor
   virtual ~TextEdit() override = default;

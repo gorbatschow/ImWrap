@@ -11,7 +11,9 @@ template <typename T> class ValueElement : public IValueElement<T> {
 
 public:
   // Constructor
-  ValueElement(const std::string &label = {}) : IValueElement<T>(label) {
+  ValueElement(const std::string &label = {}, const T &value = {})
+      : IValueElement<T>(label)
+      , _value{value} {
     ValueElementImpl();
   }
 

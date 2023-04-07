@@ -10,7 +10,10 @@ template <typename T> class SpinBox : public ValueElement<T> {
 
 public:
   // Constructor
-  SpinBox(const std::string &label = {}) : Base(label) { SpinBoxImpl(); }
+  SpinBox(const std::string &label = {}, const T &value = {})
+      : Base(label, value) {
+    SpinBoxImpl();
+  }
 
   // Destructor
   virtual ~SpinBox() override = default;

@@ -5,7 +5,8 @@ namespace ImWrap {
 class CheckBox : public ValueElement<bool> {
 public:
   // Constructor
-  CheckBox(const std::string &label = {}) : ValueElement<bool>(label) {}
+  CheckBox(const std::string &label = {}, bool value = {})
+      : ValueElement<bool>(label, value) {}
 
   // Destructor
   virtual ~CheckBox() override = default;
