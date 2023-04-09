@@ -13,8 +13,9 @@ public:
 
   // Constructor
   ComboBox(const std::string &label,
-           const std::vector<std::pair<T, std::string>> &values)
-      : Base(values.size(), label), Base::_valueList(values) {}
+           const std::vector<std::pair<T, std::string> > &values)
+      : Base(values.size(), label)
+      , Base::_valueList(values) {}
 
   // Destructor
   virtual ~ComboBox() override = default;
@@ -54,17 +55,17 @@ public:
 protected:
   // Paint Element
   virtual void paintElement() override {
-
-    Base::_currIndex = Base::_valueList.empty() ? -1 : Base::_currIndex;
-    if (Base::_currIndex < 0) {
+    if (Base::_valueList.empty()) {
       // Value list IS empty
       if (ImGui::BeginCombo(Base::_label.c_str(), Base::_placeHolder.c_str())) {
         ImGui::EndCombo();
       }
     } else {
       // Value list is NOT empty
-      if (ImGui::BeginCombo(Base::_label.c_str(),
-                            Base::_valueList.at(Base::_currIndex).namePtr())) {
+      const auto namePtr{Base::_currIndex >= 0
+                             ? Base::_valueList.at(Base::_currIndex).namePtr()
+                             : Base::_placeHolder.c_str()};
+      if (ImGui::BeginCombo(Base::_label.c_str(), namePtr)) {
         for (size_t i = 0; i != Base::_valueList.size(); ++i) {
           if (ImGui::Selectable(Base::_valueList.at(i).namePtr(),
                                 i == Base::_currIndex)) {
