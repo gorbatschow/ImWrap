@@ -37,7 +37,7 @@ public:
 
   // Paint
   virtual void paint() override final {
-    if (!_enabled) {
+    if (!_visible) {
       return;
     }
 
@@ -64,6 +64,9 @@ public:
 
   // Trigger
   virtual void trigger() const override { _triggered = true; }
+
+  inline void setVisible(bool value) { _visible = value; }
+  inline bool visible() const { return _visible; }
 
   inline void setEnabled(bool value) { _enabled = value; }
   inline bool enabled() const { return _enabled; }
@@ -102,6 +105,7 @@ protected:
 
   mutable bool _triggered{false};
   bool _enabled{true};
+  bool _visible{true};
   float _width{std::numeric_limits<float>::quiet_NaN()};
   float _height{std::numeric_limits<float>::quiet_NaN()};
   bool _isVertical{false};
