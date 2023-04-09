@@ -36,7 +36,11 @@ public:
   }
 
   // Paint
-  virtual void paint() override {
+  virtual void paint() override final {
+    if (!_enabled) {
+      return;
+    }
+
     ImGui::PushID(this);
     if (_sameLine) {
       ImGui::SameLine(_sameLineOffset, _sameLineSpacing);
@@ -61,13 +65,16 @@ public:
   // Trigger
   virtual void trigger() const override { _triggered = true; }
 
+  inline void setEnabled(bool value) { _enabled = value; }
+  inline bool enabled() const { return _enabled; }
+
   inline void setWidth(float w) { _width = w; }
   inline float width() const { return _width; }
 
   inline void setHeight(float h) { _height = h; }
   inline float height() const { return _height; }
 
-  inline void setVerical(bool isVertical) {}
+  inline void setVerical(bool isVertical) { _isVertical = true; }
   inline bool isVertical() { return _isVertical; }
 
   inline void setLabel(const std::string &label) { _label = label; }
@@ -93,6 +100,8 @@ public:
 protected:
   virtual void paintElement() {}
 
+  mutable bool _triggered{false};
+  bool _enabled{true};
   float _width{std::numeric_limits<float>::quiet_NaN()};
   float _height{std::numeric_limits<float>::quiet_NaN()};
   bool _isVertical{false};
@@ -103,7 +112,5 @@ protected:
   std::string _textFormat{};
   std::string _placeHolder{};
   int _elementId{};
-
-  mutable bool _triggered{false};
 };
 } // namespace ImWrap
