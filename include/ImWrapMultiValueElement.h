@@ -25,7 +25,7 @@ public:
   }
 
   // Save State
-  virtual void saveState(mINI::INIStructure &ini) override {
+  virtual void saveState(mINI::INIStructure &ini) const override {
     saveStateImpl(ini);
   }
 
@@ -74,7 +74,7 @@ protected:
   virtual void paintElement() override {}
   inline void MultiValueElementImpl() {}
   inline void loadStateImpl(const mINI::INIStructure &ini) {}
-  inline void saveStateImpl(mINI::INIStructure &ini) {}
+  inline void saveStateImpl(mINI::INIStructure &ini) const {}
 
   // Default load from INI file
   void loadStateDefault(const mINI::INIStructure &ini,
@@ -100,7 +100,7 @@ protected:
   }
 
   // Default save to INI file
-  void saveStateDefault(mINI::INIStructure &ini) {
+  void saveStateDefault(mINI::INIStructure &ini) const {
     static const auto key_base{"value_"};
     int index{};
     for (const auto &item : _valueList) {
@@ -131,7 +131,7 @@ protected:
   }
 
   // Index save to INI file
-  void saveStateIndex(mINI::INIStructure &ini) {
+  void saveStateIndex(mINI::INIStructure &ini) const {
     static const auto key{"index"};
     ini[Base::elementIdStr()][key] = std::to_string(_currIndex);
   }
@@ -150,7 +150,8 @@ MultiValueElement<bool>::loadStateImpl(const mINI::INIStructure &ini) {
 }
 
 template <>
-inline void MultiValueElement<bool>::saveStateImpl(mINI::INIStructure &ini) {
+inline void
+MultiValueElement<bool>::saveStateImpl(mINI::INIStructure &ini) const {
   saveStateDefault(ini);
 }
 
@@ -163,7 +164,8 @@ MultiValueElement<int>::loadStateImpl(const mINI::INIStructure &ini) {
 }
 
 template <>
-inline void MultiValueElement<int>::saveStateImpl(mINI::INIStructure &ini) {
+inline void
+MultiValueElement<int>::saveStateImpl(mINI::INIStructure &ini) const {
   saveStateDefault(ini);
 }
 
@@ -176,7 +178,8 @@ MultiValueElement<float>::loadStateImpl(const mINI::INIStructure &ini) {
 }
 
 template <>
-inline void MultiValueElement<float>::saveStateImpl(mINI::INIStructure &ini) {
+inline void
+MultiValueElement<float>::saveStateImpl(mINI::INIStructure &ini) const {
   saveStateDefault(ini);
 }
 
@@ -189,8 +192,8 @@ inline void MultiValueElement<NamedValue<int>>::loadStateImpl(
 }
 
 template <>
-inline void
-MultiValueElement<NamedValue<int>>::saveStateImpl(mINI::INIStructure &ini) {
+inline void MultiValueElement<NamedValue<int>>::saveStateImpl(
+    mINI::INIStructure &ini) const {
   saveStateIndex(ini);
 }
 

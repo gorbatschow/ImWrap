@@ -13,9 +13,8 @@ public:
 
   // Constructor
   ComboBox(const std::string &label,
-           const std::vector<std::pair<T, std::string> > &values)
-      : Base(values.size(), label)
-      , Base::_valueList(values) {}
+           const std::vector<std::pair<T, std::string>> &values)
+      : Base(values.size(), label), Base::_valueList(values) {}
 
   // Destructor
   virtual ~ComboBox() override = default;
@@ -40,7 +39,7 @@ public:
   }
 
   // Save State
-  virtual void saveState(mINI::INIStructure &ini) override {
+  virtual void saveState(mINI::INIStructure &ini) const override {
     static constexpr auto key{"name"};
     if (Base::isCurrentValid()) {
       ini[Base::elementIdStr()][key] = Base::currentValue().name();

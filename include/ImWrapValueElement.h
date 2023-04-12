@@ -12,8 +12,7 @@ template <typename T> class ValueElement : public IValueElement<T> {
 public:
   // Constructor
   ValueElement(const std::string &label = {}, const T &value = {})
-      : IValueElement<T>(label)
-      , _value{value} {
+      : IValueElement<T>(label), _value{value} {
     ValueElementImpl();
   }
 
@@ -26,7 +25,7 @@ public:
   }
 
   // Save State
-  virtual void saveState(mINI::INIStructure &ini) override {
+  virtual void saveState(mINI::INIStructure &ini) const override {
     saveStateImpl(ini);
   }
 
@@ -60,7 +59,7 @@ protected:
   virtual void paintElement() override {}
   inline void ValueElementImpl() {}
   inline void loadStateImpl(const mINI::INIStructure &ini) {}
-  inline void saveStateImpl(mINI::INIStructure &ini) {}
+  inline void saveStateImpl(mINI::INIStructure &ini) const {}
 
   // Default load from INI file
   void loadStateDefault(const mINI::INIStructure &ini,
@@ -79,12 +78,12 @@ protected:
   }
 
   // Default save to INI file
-  void saveStateDefault(mINI::INIStructure &ini) {
+  void saveStateDefault(mINI::INIStructure &ini) const {
     ini[Base::elementIdStr()]["value"] = std::to_string(_value);
   }
 
   void saveStateDefault(mINI::INIStructure &ini,
-                        std::function<T(std::string)> transform) {
+                        std::function<T(std::string)> transform) const {
     ini[Base::elementIdStr()]["value"] = transform(_value);
   }
 
@@ -100,7 +99,7 @@ inline void ValueElement<bool>::loadStateImpl(const mINI::INIStructure &ini) {
 }
 
 template <>
-inline void ValueElement<bool>::saveStateImpl(mINI::INIStructure &ini) {
+inline void ValueElement<bool>::saveStateImpl(mINI::INIStructure &ini) const {
   saveStateDefault(ini);
 }
 
@@ -112,7 +111,7 @@ inline void ValueElement<int>::loadStateImpl(const mINI::INIStructure &ini) {
 }
 
 template <>
-inline void ValueElement<int>::saveStateImpl(mINI::INIStructure &ini) {
+inline void ValueElement<int>::saveStateImpl(mINI::INIStructure &ini) const {
   saveStateDefault(ini);
 }
 
@@ -124,7 +123,7 @@ inline void ValueElement<float>::loadStateImpl(const mINI::INIStructure &ini) {
 }
 
 template <>
-inline void ValueElement<float>::saveStateImpl(mINI::INIStructure &ini) {
+inline void ValueElement<float>::saveStateImpl(mINI::INIStructure &ini) const {
   saveStateDefault(ini);
 }
 
@@ -137,7 +136,8 @@ ValueElement<std::string>::loadStateImpl(const mINI::INIStructure &ini) {
 }
 
 template <>
-inline void ValueElement<std::string>::saveStateImpl(mINI::INIStructure &ini) {
+inline void
+ValueElement<std::string>::saveStateImpl(mINI::INIStructure &ini) const {
   saveStateDefault(ini, [](const std::string &str) { return str; });
 }
 
