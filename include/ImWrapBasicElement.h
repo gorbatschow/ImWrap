@@ -23,7 +23,9 @@ public:
   virtual int elementId() const override final { return _elementId; }
 
   std::string elementIdStr() const override final {
-    return "imw_element_" + std::to_string(_elementId);
+    auto labelId{_label};
+    remove_if(labelId.begin(), labelId.end(), isspace);
+    return "imwrap_" + labelId + std::to_string(_elementId);
   }
 
   // Load State
