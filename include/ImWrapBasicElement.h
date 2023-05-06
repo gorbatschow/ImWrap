@@ -24,7 +24,11 @@ public:
 
   std::string elementIdStr() const override final {
     auto labelId{_label};
-    remove_if(labelId.begin(), labelId.end(), isspace);
+    std::erase_if(labelId, [](const char c) {
+      return c == ' ' || c == '[' || c == ']' || c == '/' || c == '\\'
+             || c == '{' || c == '}' || c == '(' || c == ')';
+    });
+
     return "imwrap_" + labelId + std::to_string(_elementId);
   }
 
